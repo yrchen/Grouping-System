@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= @page_title || "Grouping System" %></title>
+	<link href="https://dl.dropboxusercontent.com/u/93845492/MINE_icon.png" type="image/jpg" rel="icon">
+	<meta charset="utf-8">
+	<%= stylesheet_link_tag 'application', :media => "all"  %>
+	<%= javascript_include_tag "application" %>
+	<%= csrf_meta_tags %>
+	<!--[if lt IE 7]>
+	<link rel="stylesheet" href="css/ie6.css" type="text/css" media="screen">
+	<script type="text/javascript" src="js/ie_png.js"></script>
+	<script type="text/javascript">ie_png.fix('.png, footer, header nav ul li a, .nav-bg, .list li img');</script>
+	<![endif]-->
+	<!--[if lt IE 9]><script type="text/javascript" src="js/html5.js"></script><![endif]-->
+</head>
+<body id="page1">
+<% flash.each do |name, msg| %>
+	<%= content_tag :div, msg, class: name %>
+<% end %>
+
+<!-- START PAGE SOURCE -->
+<div class="wrap">
+  <header>
+    <div class="container">
+      <h1><a class="m1" <%= link_to 'home', groups_path() %></a></h1>
+      <nav>
+        <ul>
+          <li class="current"><a class="m1" <%= link_to '首頁', groups_path() %></a></li>
+          <li class="last"><a href="sitemap.html" class="m5">Sitemap</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <div class="container">
+    <aside>
+      <h3>Categories</h3>
+      <ul class="categories">
+        <li><span><a href="#">Programs</a></span></li>
+        <li class="last"><span><a href="#">Calendar</a></span></li>
+      </ul>
+      <form action="#" id="newsletter-form">
+        <fieldset>
+          <div class="rowElem">
+            <!-- <input type="email" value="請輸入帳號" onFocus="if(this.value=='請輸入帳號'){this.value=''}" onBlur="if(this.value==''){this.value='請輸入帳號'}" > -->
+            <% if current_user %>
+							<h2>歡迎!&emsp; <span><%= current_user.account%></span></h2>
+							<div class="fright"><%= link_to "登出", logout_path %></div>
+						<% else %>
+							<%= render "sessions/new"%>
+						<% end %>
+						<!-- <div class="clear"><a href="#" class="fright">登入</a></div> -->
+          </div>
+        </fieldset>
+      </form>
+    </aside>
+    <section id="content">
+      <div id="banner">
+        <h2>Grouping System <span><span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Since 2013</span></span></h2>
+      </div>
+      <div class="inside">
+        <%= yield %>
+      </div>
+    </section>
+  </div>
+</div>
+<footer>
+  <div class="footerlink">
+    <p class="lf">Copyright &copy; 2013 <a href="#">Wayne Su</a> - All Rights Reserved</p>
+    <p class="rf"><a href="http://all-free-download.com/free-website-templates/">Free CSS Templates</a> by <a href="http://www.templatemonster.com/">TemplateMonster</a></p>
+    <div style="clear:both;"></div>
+  </div>
+</footer>
+<script type="text/javascript"> Cufon.now(); </script>
+<!-- END PAGE SOURCE -->
+<!-- <div align=center>This template  downloaded form <a href='http://all-free-download.com/free-website-templates/'>free website templates</a></div></body> -->
+</html>

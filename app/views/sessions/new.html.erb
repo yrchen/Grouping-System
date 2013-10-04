@@ -1,0 +1,17 @@
+<p class="inline_right"><%= link_to "教師新增帳號", new_user_path %></p>
+<h2>User</h2>
+
+<%= form_tag sessions_path do %>
+  <div class="field">
+    <%= label_tag :account %><br>
+    <%= text_field_tag :account, params[:account], {:onFocus => "if(this.value=='請輸入帳號或學號'){this.value=''}", :onBlur => "if(this.value==''){this.value='請輸入帳號或學號'}"} %>
+  </div>
+  <div class="field">
+    <%= label_tag :password %><br>
+    <%= password_field_tag :password %>
+  </div>
+  <div class="clear">
+		<div class="fright"><%= submit_tag "登入" %></div>
+	</div>
+<% end %>
+

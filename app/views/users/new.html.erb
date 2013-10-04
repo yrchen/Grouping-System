@@ -1,0 +1,31 @@
+<h2>教師 <span>註冊</span></h2>
+
+<%= form_for @user do |f| %>
+  <% if @user.errors.any? %>
+    <div class="error_messages">
+      <h3>Form is invalid</h3>
+      <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li><br><br>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+	
+  <div class="field">
+    <%= f.label :account %><br>
+    <%= f.text_field :account %>
+  </div>
+  <div class="field">
+    <%= f.label :password %><br>
+    <%= f.password_field :password %>
+  </div>
+  <div class="field">
+    <%= f.label :password_confirmation %><br>
+    <%= f.password_field :password_confirmation %>
+  </div>
+  <div class="actions"><%= f.submit %></div>
+<% end %>
+
+
+
