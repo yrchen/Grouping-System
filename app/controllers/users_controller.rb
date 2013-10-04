@@ -8,6 +8,7 @@ class UsersController < ApplicationController
 
 	def create
 		@user = User.new(params[:user])
+		
 		if @user.save
 			session[:user_id] = @user.id
 			redirect_to :controller => 'groups', :action => 'index', :notice => "註冊成功!"
@@ -15,4 +16,5 @@ class UsersController < ApplicationController
 			render "new"
 		end
 	end
+	
 end

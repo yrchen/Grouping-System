@@ -15,10 +15,6 @@
 	<!--[if lt IE 9]><script type="text/javascript" src="js/html5.js"></script><![endif]-->
 </head>
 <body id="page1">
-<% flash.each do |name, msg| %>
-	<%= content_tag :div, msg, class: name %>
-<% end %>
-
 <!-- START PAGE SOURCE -->
 <div class="wrap">
   <header>
@@ -27,18 +23,36 @@
       <nav>
         <ul>
           <li class="current"><a class="m1" <%= link_to '首頁', groups_path() %></a></li>
-          <li class="last"><a href="sitemap.html" class="m5">Sitemap</a></li>
+          <!-- <li class="last"><a href="sitemap.html" class="m5">Sitemap</a></li> -->
         </ul>
       </nav>
     </div>
   </header>
   <div class="container">
     <aside>
-      <h3>Categories</h3>
-      <ul class="categories">
-        <li><span><a href="#">Programs</a></span></li>
-        <li class="last"><span><a href="#">Calendar</a></span></li>
-      </ul>
+			<% flash.each do |name, msg| %>
+				<h3><%= content_tag :div, msg, class: name %></h3>
+			<% end %>
+			
+			<!-- "-1" is tutor, "bigger than 0" is student -->
+			<% if current_user %>
+				<% if current_user.class_id == -1 %>
+					<h3>Categories</h3>
+					<ul class="categories">
+						<li><span><a href="#">變更密碼</a></span></li>
+						<li><span><a href="#">匯入班級名單</a></span></li>
+						<li><span><a href="#">查詢班級成績</a></span></li>
+						<li class="last"><span><a href="#">查詢班級分組</a></span></li>
+					</ul>
+				<% elsif current_user.class_id > 0 %>	
+					<h3>Categories</h3>
+					<ul class="categories">
+						<li><span><a href="#">變更密碼</a></span></li>
+						<li><span><a href="#">查詢個人成績</a></span></li>
+						<li class="last"><span><a href="#">查詢分組</a></span></li>
+					</ul>
+				<% end %>
+			<% end %>
       <form action="#" id="newsletter-form">
         <fieldset>
           <div class="rowElem">

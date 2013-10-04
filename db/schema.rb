@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131004010950) do
+ActiveRecord::Schema.define(:version => 20131004134022) do
 
   create_table "tutors", :force => true do |t|
     t.string   "account"
@@ -23,9 +23,9 @@ ActiveRecord::Schema.define(:version => 20131004010950) do
   create_table "users", :force => true do |t|
     t.string   "account"
     t.string   "password_digest"
-    t.string   "class_id"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.integer  "class_id",        :limit => 255
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
 
 end
