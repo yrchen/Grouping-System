@@ -1,0 +1,12 @@
+<h2>手動新增 <span>學生帳號</span></h2>
+
+<%= form_for @user, :url => cstudent_path(@user) do |f| %>
+	<%= render "student_fields", :f => f %>
+	
+	<div class="actions">&emsp;&emsp;<%= submit_tag "新增", data: { confirm: "學生新增後無法手動刪除、修改，確定新增?" } %></div>
+<% end %>
+
+<br>
+<div>* 請注意，如果沒有該學生的班級選項，代表此班級的學生皆尚未匯入，請使用匯入檔案方式新增</div><br><br>
+
+<%= link_to "回上一頁", import_path %>

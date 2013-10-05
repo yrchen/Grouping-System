@@ -1,5 +1,11 @@
 Grouping::Application.routes.draw do
-
+	
+	#---groups---
+	resources :groups do
+		collection { post :import_excel }
+	end
+	root :to => "groups#index"
+	
 	#---users---
   resources :users
   resources :sessions
@@ -8,13 +14,14 @@ Grouping::Application.routes.draw do
 	get 'login', to: 'sessions#new', as: 'login'
 	get 'logout', to: 'sessions#destroy', as: 'logout'
 	
-	#---groups---
-	resources :groups do
-		collection { post :import_excel }
-	end
-	root :to => "groups#index"
+	resources :courses
+	resources :school_classes
 	
 	get 'import', to: 'groups#import', as: 'import'
+	match 'macourse', to: 'groups#manual_add_course', as: 'macourse'
+	match 'ccourse', to: 'groups#create_course', as: 'ccourse'
+	match 'mastudent', to: 'groups#manual_add_student', as: 'mastudent'
+	match 'cstudent', to: 'groups#create_student', as: 'cstudent'
 	
 	# get "welcome/say_hello" => "welcome#say"
 	# get "welcome" => "welcome#index"

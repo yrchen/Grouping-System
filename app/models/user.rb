@@ -26,7 +26,10 @@ class User < ActiveRecord::Base
 				stu.account = row["學號"]
 				stu.password = "1111"
 				stu.class_id = c_id
-				stu.save!
+				
+				if( (stu.account != "") && (stu.account != nil) )
+					stu.save!
+				end
 			end
 		end
 	end

@@ -1,0 +1,15 @@
+<h2>手動新增 <span>課堂名稱</span></h2>
+
+<div>
+	<p>已新增之課名: <%= select_tag '課名', options_from_collection_for_select( Course.order(:name), 'id', 'name' ) %></p>
+</div>
+
+<%= form_for @course, :url => ccourse_path(@course) do |f| %>
+	<%= render "course_fields", :f => f %>
+	
+	<div class="actions">&emsp;&emsp;<%= submit_tag "新增", data: { confirm: "課程新增後無法手動刪除，確定新增?" } %></div>
+<% end %>
+
+<br><br>
+
+<%= link_to "回上一頁", import_path %>

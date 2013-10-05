@@ -12,7 +12,10 @@ class SchoolClass < ActiveRecord::Base
 			# Rails.logger.debug("--------In model school class if--------")
 			school_class = find_by_name(name) || new
 			school_class.name = name
-			school_class.save!
+			
+			if( (school_class.name != "") && (school_class.name != nil) )
+				school_class.save!
+			end
 		end
 	end
 	

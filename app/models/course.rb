@@ -11,7 +11,10 @@ class Course < ActiveRecord::Base
 		if(!find_by_name(name))
 			course = find_by_name(name) || new
 			course.name = name
-			course.save!
+			
+			if( (course.name != "") && (course.name != nil) )
+				course.save!
+			end
 		end
 	end
 	

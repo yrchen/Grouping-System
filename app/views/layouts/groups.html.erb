@@ -31,7 +31,7 @@
   <div class="container">
     <aside>
 			<% flash.each do |name, msg| %>
-				<h3><%= content_tag :div, msg, class: name %></h3>
+				<h3><%= content_tag :div, msg, class: "warn" %></h3>
 			<% end %>
 			
 			<!-- "-1" is tutor, "bigger than 0" is student -->
@@ -39,17 +39,17 @@
 				<% if current_user.class_id == -1 %>
 					<h3>Categories</h3>
 					<ul class="categories">
-						<li><span><a href="#">變更密碼</a></span></li>
+						<li><span><a href="#">變更密碼*</a></span></li>
 						<li><span><%= link_to "匯入班級名單", import_path %></span></li>
-						<li><span><a href="#">查詢班級成績</a></span></li>
-						<li class="last"><span><a href="#">查詢班級分組</a></span></li>
+						<li><span><a href="#">查詢班級成績*</a></span></li>
+						<li class="last"><span><a href="#">查詢班級分組*</a></span></li>
 					</ul>
-				<% elsif current_user.class_id > 0 %>	
+				<% elsif current_user.class_id >= 0 %>	
 					<h3>Categories</h3>
 					<ul class="categories">
-						<li><span><a href="#">變更密碼</a></span></li>
-						<li><span><a href="#">查詢個人成績</a></span></li>
-						<li class="last"><span><a href="#">查詢分組</a></span></li>
+						<li><span><a href="#">變更密碼*</a></span></li>
+						<li><span><a href="#">查詢個人成績*</a></span></li>
+						<li class="last"><span><a href="#">查詢分組*</a></span></li>
 					</ul>
 				<% end %>
 			<% end %>
