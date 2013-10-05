@@ -9,8 +9,12 @@ Grouping::Application.routes.draw do
 	get 'logout', to: 'sessions#destroy', as: 'logout'
 	
 	#---groups---
-	resources :groups
+	resources :groups do
+		collection { post :import_excel }
+	end
 	root :to => "groups#index"
+	
+	get 'import', to: 'groups#import', as: 'import'
 	
 	# get "welcome/say_hello" => "welcome#say"
 	# get "welcome" => "welcome#index"

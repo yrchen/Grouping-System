@@ -527,4 +527,5 @@ footer .footerlink {
 a {
 	outline:none;
 }
+p.inline { display: inline; float:left; }
 p.inline_right { display: inline; float:right; padding-top:8px;}

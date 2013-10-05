@@ -19,4 +19,16 @@ class GroupsController < ApplicationController
 			end
 		end
 	end
+	
+	# view import html
+	def import
+	end
+	
+	# to store excel
+	def import_excel
+		SchoolClass.import(params[:file])
+		Course.import(params[:file])
+		User.import(params[:file])
+		redirect_to root_url, notice: "資料已匯入"
+	end
 end
