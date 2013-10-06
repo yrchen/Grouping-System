@@ -5,6 +5,7 @@ class Course < ActiveRecord::Base
 	validates_presence_of :name
 	
 	has_many :groups
+	has_many :school_classes, :through => :groups
 	
 	def self.import(file)
 		s = open_spreadsheet(file)

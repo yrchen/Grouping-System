@@ -41,7 +41,7 @@
 					<ul class="categories">
 						<li><span><a href="#">變更密碼*</a></span></li>
 						<li><span><%= link_to "匯入班級名單", import_path %></span></li>
-						<li><span><a href="#">查詢班級分組*</a></span></li>
+						<li><span><%= link_to "查詢班級分組", searchGroup_path %></span></li>
 						<li class="last"><span><a href="#">查詢班級成績*</a></span></li>
 						
 						<% if current_user.school_class_id == -99 %>

@@ -40,7 +40,6 @@ class GroupsController < ApplicationController
 		@course = Course.new
 	end
 	
-  # POST
   def create_course
 		@course = Course.new(params[:course])
 		# to check already has course
@@ -60,6 +59,7 @@ class GroupsController < ApplicationController
 			end
     end
 	end
+	# -------------------------------------------
 	
 	# for tutor use only
 	def manual_add_student
@@ -67,7 +67,6 @@ class GroupsController < ApplicationController
 		@user = User.new
 	end
 	
-  # POST
   def create_student
 		@user = User.new(params[:user])
 		# to check already has student
@@ -88,6 +87,7 @@ class GroupsController < ApplicationController
 			end
     end
 	end
+	# -------------------------------------------
 	
 	# seting school class group method
 	def set_group
@@ -117,6 +117,32 @@ class GroupsController < ApplicationController
 			end
     end
 	end
+	# -------------------------------------------
+	
+	# find what courses this school_class have
+	def search_group
+		check_is_tutor
+		@group = Group.new
+	end
+	
+	def view_class
+		@g = Group.new(params[:group])
+		
+		respond_to do |format|
+			if @g.school_class_id != nil
+				@groups = Group.where(:school_class_id => @g.school_class_id)
+				# Rails.logger.debug("--------"+@groups.size.to_s+"--------")
+				format.html
+			else
+				format.html { redirect_to searchGroup_path, notice: '尚未選擇班級' }
+			end
+		end
+	end
+	
+	def view_group
+		@group = Group.find(params[:id])
+	end
+	# -------------------------------------------
 	
 	# avoid student key this path to view this page
 	def check_is_tutor

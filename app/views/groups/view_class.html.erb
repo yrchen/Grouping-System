@@ -1,0 +1,12 @@
+<h2><%= @groups.first.school_class.name %> <span>班級分組</span></h2>
+
+<% @groups.each_with_index do |g, index| %>
+	<tr>
+		<td><font face="Segoe UI Light"><%= link_to g.course.name, viewGroup_path(:id => g.id) %></font></td>&emsp;
+		<% if (index != 0) && (index % 4 == 0) %> <br><br> <% end %>
+	</tr>
+<% end %>
+
+<br><br><br>
+<%= link_to "回上一頁", searchGroup_path %>
+

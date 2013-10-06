@@ -7,8 +7,13 @@ Grouping::Application.routes.draw do
 	
 	root :to => "groups#index"
 	get 'import', to: 'groups#import', as: 'import'
+	
 	match 'setGroup', to: 'groups#set_group', as: 'setGroup'
 	match 'createGroup', to: 'groups#create_group', as: 'createGroup'
+	
+	match 'searchGroup', to: 'groups#search_group', as: 'searchGroup'
+	match 'viewClass', to: 'groups#view_class', as: 'viewClass'
+	match 'viewGroup', to: 'groups#view_group', as: 'viewGroup'
 	
 	#---users---
   resources :users
@@ -24,6 +29,7 @@ Grouping::Application.routes.draw do
 	
 	match 'macourse', to: 'groups#manual_add_course', as: 'macourse'
 	match 'ccourse', to: 'groups#create_course', as: 'ccourse'
+	
 	match 'mastudent', to: 'groups#manual_add_student', as: 'mastudent'
 	match 'cstudent', to: 'groups#create_student', as: 'cstudent'
 	
