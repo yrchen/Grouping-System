@@ -1,2 +1,2 @@
 <p class="inline"><%= f.label "學號:" %>&nbsp;&nbsp;<%= f.text_field :account %><br></p>
-<p class="inline">&emsp;<%= f.select :class_id, SchoolClass.all.map{ |c| [c.name, c.id] } %><br></p>
+<p class="inline">&emsp;<%= f.select :school_class_id, SchoolClass.all.map{ |c| [c.name, c.id] }, :prompt => "請選擇" %><br></p>

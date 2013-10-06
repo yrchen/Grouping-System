@@ -29,8 +29,9 @@ class GroupsController < ApplicationController
 	def import_excel
 		SchoolClass.import(params[:file])
 		Course.import(params[:file])
+		Group.import(params[:file])
 		User.import(params[:file])
-		redirect_to root_url, notice: "資料已匯入"
+		redirect_to root_url, notice: "資料已儲存"
 	end
 	
 	# for tutor use only
@@ -88,8 +89,37 @@ class GroupsController < ApplicationController
     end
 	end
 	
+	# seting school class group method
+	def set_group
+		check_is_tutor
+		@group = Group.new
+	end
+	
+	def create_group
+		@group = Group.new(params[:group])
+		# check whether already has this group
+		@has_group = Group.where( :course_id => @group.course_id, :school_class_id => @group.school_class_id).first
+		
+		respond_to do |format|
+			if !@has_group
+				if @group.save
+					format.html { redirect_to setGroup_path, notice: '分組設定完成' }
+				else
+					format.html { render action: "set_group" }
+				end
+			elsif @has_group.mode != nil
+				format.html { redirect_to setGroup_path, notice: '該班級的這堂課已設好分組模式' }
+			# not yet to choose mode
+			else
+				@has_group.mode = @group.mode
+				@has_group.save
+				format.html { redirect_to setGroup_path, notice: '分組設定完成' }
+			end
+    end
+	end
+	
 	# avoid student key this path to view this page
 	def check_is_tutor
-		redirect_to groups_path, alert: "您沒有權限，請先登入" if current_user.class_id != -1
+		redirect_to groups_path, alert: "您沒有權限，請先登入" if current_user.school_class_id > -1
 	end
 end

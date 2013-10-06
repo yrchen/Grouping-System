@@ -36,20 +36,25 @@
 			
 			<!-- "-1" is tutor, "bigger than 0" is student -->
 			<% if current_user %>
-				<% if current_user.class_id == -1 %>
+				<% if current_user.school_class_id < 0 %>
 					<h3>Categories</h3>
 					<ul class="categories">
 						<li><span><a href="#">變更密碼*</a></span></li>
 						<li><span><%= link_to "匯入班級名單", import_path %></span></li>
-						<li><span><a href="#">查詢班級成績*</a></span></li>
-						<li class="last"><span><a href="#">查詢班級分組*</a></span></li>
+						<li><span><a href="#">查詢班級分組*</a></span></li>
+						<li class="last"><span><a href="#">查詢班級成績*</a></span></li>
+						
+						<% if current_user.school_class_id == -99 %>
+							--------------------------------------------<br>
+							<li><span><%= link_to "設定班級分組方式", setGroup_path %></span></li>
+						<% end %>
 					</ul>
-				<% elsif current_user.class_id >= 0 %>	
+				<% elsif current_user.school_class_id >= 0 %>	
 					<h3>Categories</h3>
 					<ul class="categories">
 						<li><span><a href="#">變更密碼*</a></span></li>
-						<li><span><a href="#">查詢個人成績*</a></span></li>
-						<li class="last"><span><a href="#">查詢分組*</a></span></li>
+						<li><span><a href="#">查詢分組*</a></span></li>
+						<li class="last"><span><a href="#">查詢個人成績*</a></span></li>
 					</ul>
 				<% end %>
 			<% end %>

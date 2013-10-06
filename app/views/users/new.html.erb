@@ -14,7 +14,7 @@
 	
 	<div class="field">
     <%= f.label :account %><br>
-    <%= f.text_field :account %>
+    <%= f.text_field :account, :id => "id_check" %>
   </div>
   <div class="field">
     <%= f.label :password %><br>
@@ -27,10 +27,10 @@
 		
 	<!-- avoid that student sign up -->
 	<div>
-		<br>邀請碼: &nbsp; <input type="password" id="invited_code">
+		<br>邀請碼: &nbsp; <%= password_field_tag "invited_code" %>
 	</div>
 	
-	<%= f.hidden_field :class_id, :value => "-1" %>
+	<%= f.hidden_field :school_class_id, :value => "-1" %>
 	
   <br><div class="actions"><%= f.submit '送出', :id => "check" %></div>
 <% end %>
@@ -39,17 +39,17 @@
 	$("#check").attr("disabled", true);
 	$("#check").hide();
 	
-	//check invited code
-	$("#invited_code").keyup(function()
+	//check account
+	$("#id_check").keyup(function()
 	{
-		if($(this).val() == "minemine")
+		if($(this).val() != "")
 		{
 			$("#check").show("slow");
 			$("#check").attr("disabled", false);
 		}
 		else
 		{
-			$("#check").hide();
+			$("#check").hide("slow");
 			$("#check").attr("disabled", true);
 		}
 	});

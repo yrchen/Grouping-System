@@ -4,7 +4,11 @@ Grouping::Application.routes.draw do
 	resources :groups do
 		collection { post :import_excel }
 	end
+	
 	root :to => "groups#index"
+	get 'import', to: 'groups#import', as: 'import'
+	match 'setGroup', to: 'groups#set_group', as: 'setGroup'
+	match 'createGroup', to: 'groups#create_group', as: 'createGroup'
 	
 	#---users---
   resources :users
@@ -14,10 +18,10 @@ Grouping::Application.routes.draw do
 	get 'login', to: 'sessions#new', as: 'login'
 	get 'logout', to: 'sessions#destroy', as: 'logout'
 	
+	#---school class & course---
 	resources :courses
 	resources :school_classes
 	
-	get 'import', to: 'groups#import', as: 'import'
 	match 'macourse', to: 'groups#manual_add_course', as: 'macourse'
 	match 'ccourse', to: 'groups#create_course', as: 'ccourse'
 	match 'mastudent', to: 'groups#manual_add_student', as: 'mastudent'

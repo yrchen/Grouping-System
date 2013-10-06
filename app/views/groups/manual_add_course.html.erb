@@ -1,7 +1,7 @@
 <h2>手動新增 <span>課堂名稱</span></h2>
 
 <div>
-	<p>已新增之課名: <%= select_tag '課名', options_from_collection_for_select( Course.order(:name), 'id', 'name' ) %></p>
+	<p>查詢已新增之課名: <%= select_tag '課名', options_from_collection_for_select( Course.order(:name), 'id', 'name' ), :prompt => "請選擇" %></p>
 </div>
 
 <%= form_for @course, :url => ccourse_path(@course) do |f| %>

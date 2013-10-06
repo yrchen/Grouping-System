@@ -1,8 +1,11 @@
 # encoding: utf-8
 class User < ActiveRecord::Base
 	has_secure_password
-  attr_accessible :account, :class_id, :password, :password_confirmation
+  attr_accessible :account, :school_class_id, :password, :password_confirmation
 	validates_uniqueness_of :account
+	validates_presence_of :account, :school_class_id
+	
+	belongs_to :school_class
 	
 	def self.import(file)
 		s = open_spreadsheet(file)
@@ -13,7 +16,7 @@ class User < ActiveRecord::Base
 		c_id = SchoolClass.find_by_name(c_name).id
 		
 		# To find that have we store those students before (They will store in array: 'students')
-		students = User.select("account, class_id").where( :class_id => c_id )
+		students = User.select("account, school_class_id").where( :school_class_id => c_id )
 		
 		(2..s.last_row).each do |i|
 			# store excel each row
@@ -25,7 +28,7 @@ class User < ActiveRecord::Base
 				stu = new
 				stu.account = row["學號"]
 				stu.password = "1111"
-				stu.class_id = c_id
+				stu.school_class_id = c_id
 				
 				if( (stu.account != "") && (stu.account != nil) )
 					stu.save!

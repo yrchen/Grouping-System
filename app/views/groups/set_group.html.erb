@@ -1,0 +1,30 @@
+<h2>設定班級 <span>分組方式</span></h2>
+
+<div>
+	<p class="inline">已匯入之班級: <%= select_tag '班級', options_from_collection_for_select( SchoolClass.order(:name), 'id', 'name' ) %></p>
+	<p>&emsp; 已新增之課名: <%= select_tag '課名', options_from_collection_for_select( Course.order(:name), 'id', 'name' ) %></p>
+</div>
+<br><br>
+
+<%= form_for @group, :url => {:action => "create_group"} do |f| %>
+	<% if @group.errors.any? %>
+    <div class="error_messages">
+      <h3>Form is invalid</h3>
+      <ul>
+        <% @group.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %><br><br>
+      </ul>
+    </div>
+  <% end %>
+	
+	<p class="inline">選擇班級與課程: &emsp;<%= f.select :school_class_id, SchoolClass.all.map{ |c| [c.name, c.id] }, :prompt => "請選擇" %></p>
+	<p class="inline">&emsp;<%= f.select :course_id, Course.all.map{ |c| [c.name, c.id] }, :prompt => "請選擇" %></p>
+	<p class="inline">&emsp;<%= f.select :mode, options_for_select([["S型分組", 0], ["隨機分組", 1], ["研究分組", 2]]), :prompt => "請選擇" %><br></p>
+	<div class="actions">&emsp;<%= f.submit '確認' %></div>
+<% end %>
+
+<br><br>
+<div>* 請注意，分組方式一旦設定完成，無法中途改變模式</div><br>
+<br><br>
+
