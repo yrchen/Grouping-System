@@ -1,7 +1,12 @@
 <h2><%= @group.school_class.name %> <span><%= @group.course.name %></span></h2>
 
 <div>
-	分組模式: &nbsp; <%= @group.mode %>&nbsp;模式
+	分組模式: &nbsp; 
+	<% if @group.mode != nil %>
+		<%= @group.mode %>&nbsp;模式
+	<% else %>
+		該堂課尚未選擇分組模式
+	<% end %>
 </div>
 
 <br><br><br>

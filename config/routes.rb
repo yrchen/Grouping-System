@@ -23,6 +23,9 @@ Grouping::Application.routes.draw do
 	get 'login', to: 'sessions#new', as: 'login'
 	get 'logout', to: 'sessions#destroy', as: 'logout'
 	
+	get 'newPassword', to: 'sessions#new_password', as: 'newPassword'
+	post 'changePassword', to: 'sessions#change_password', as: 'changePassword'
+	
 	#---school class & course---
 	resources :courses
 	resources :school_classes
