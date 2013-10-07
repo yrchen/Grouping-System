@@ -1,11 +1,5 @@
 <h2>設定班級 <span>分組方式</span></h2>
 
-<div>
-	<p class="inline">已匯入之班級: <%= select_tag '班級', options_from_collection_for_select( SchoolClass.order(:name), 'id', 'name' ) %></p>
-	<p>&emsp; 已新增之課名: <%= select_tag '課名', options_from_collection_for_select( Course.order(:name), 'id', 'name' ) %></p>
-</div>
-<br><br>
-
 <%= form_for @group, :url => {:action => "create_group"} do |f| %>
 	<% if @group.errors.any? %>
     <div class="error_messages">

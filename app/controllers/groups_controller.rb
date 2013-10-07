@@ -128,6 +128,11 @@ class GroupsController < ApplicationController
 	def view_class
 		@g = Group.new(params[:group])
 		
+		# this is from student's page
+		if params[:sc_id]
+			@g.school_class_id = params[:sc_id]
+		end
+		
 		respond_to do |format|
 			if @g.school_class_id != nil
 				@groups = Group.where(:school_class_id => @g.school_class_id)
@@ -146,6 +151,6 @@ class GroupsController < ApplicationController
 	
 	# avoid student key this path to view this page
 	def check_is_tutor
-		redirect_to groups_path, alert: "您沒有權限，請先登入" if current_user.school_class_id > -1
+		redirect_to groups_path, alert: "很抱歉，您沒有權限閱覽該頁面" if current_user.school_class_id > -1
 	end
 end

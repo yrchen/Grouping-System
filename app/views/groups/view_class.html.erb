@@ -8,5 +8,8 @@
 <% end %>
 
 <br><br><br>
-<%= link_to "回上一頁", searchGroup_path %>
+
+<% if current_user.school_class_id < 0 %>
+	<%= link_to "回上一頁", searchGroup_path(:group => @groups.first) %>
+<% end %>
 

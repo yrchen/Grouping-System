@@ -53,7 +53,7 @@
 					<h3>Categories</h3>
 					<ul class="categories">
 						<li><span><%= link_to "變更密碼", newPassword_path %></span></li>
-						<li><span><a href="#">查詢分組*</a></span></li>
+						<li><span><%= link_to "查詢分組", viewClass_path( :sc_id => current_user.school_class_id ) %></span></li>
 						<li class="last"><span><a href="#">查詢個人成績*</a></span></li>
 					</ul>
 				<% end %>
