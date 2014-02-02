@@ -1,0 +1,15 @@
+<h2><%= @task.title %></h2>
+
+<ul class="categories">
+	<% @groups.each do |g| %>
+		<% @SG_ship = StudentGroupRelationship.where(:group_id => g.id) %>
+		<li>
+		<span>
+			第<%= g.inclass_number %>組:&nbsp;&nbsp;
+			<% @SG_ship.each do |s| %>
+				<%= User.find(s.user_id).name %>&nbsp;&nbsp;
+			<% end %>
+		</span>
+		</li>
+	<% end %>
+</ul>

@@ -1,0 +1,23 @@
+<br><br><br>
+
+<% if current_user.school_class_id >= 0 %>
+	<p style="color:#0082c1">*每一位同學都要上傳檔案喔!<p>
+<% end %>
+
+<h2>分組</h2>
+
+<ul class="categories">
+	<% @groups.each do |g| %>
+		<% @SG_ship = StudentGroupRelationship.where(:group_id => g.id) %>
+		<li>
+		<span>
+			第<%= g.inclass_number %>組:&nbsp;&nbsp;
+			<% @SG_ship.each do |s| %>
+				<hl <% if s.user_id == current_user.id %> style="color:#0082c1" <% end %>>
+					<%= User.find(s.user_id).name %>&nbsp;&nbsp;
+				</hl>
+			<% end %>
+		</span>
+		</li>
+	<% end %>
+</ul>

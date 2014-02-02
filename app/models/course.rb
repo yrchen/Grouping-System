@@ -1,11 +1,14 @@
 # encoding: utf-8
 class Course < ActiveRecord::Base
-  attr_accessible :name
+  attr_accessible :name, :tutor_id, :group_mode
 	validates_uniqueness_of :name
 	validates_presence_of :name
 	
-	has_many :groups
-	has_many :school_classes, :through => :groups
+	# has_many :groups
+	# has_many :school_classes, :through => :groups
+	has_many :tasks
+	has_many :user_course_relationships
+	has_many :users, :through => :user_course_relationships
 	
 	def self.import(file)
 		s = open_spreadsheet(file)

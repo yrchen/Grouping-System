@@ -24,4 +24,7 @@ class UsersController < ApplicationController
 		end
 	end
 	
+	def view_score
+		@courses = current_user.courses
+	end
 end

@@ -1,0 +1,20 @@
+<h2>匯入 <span>分組</span></h2>
+
+<% if @groups.size == 0 %>
+	<%= form_tag group_excel_tasks_path, multipart: true do %>
+		<%= file_field_tag :file %>
+		<%= submit_tag "匯入" %>
+		
+		<%= hidden_field_tag 'id', params[:id]%>
+	<% end %>
+
+	<br><br>
+	<div>* 請注意，檔案格式僅限 ".xls" 與 ".xlsx"</div><br>
+	<div>* 記得每一組都要有編號</div><br>
+	<br><br>
+	
+<% else %>
+	<p>已經有分組, 是否要先刪除再匯入?</p>
+	<%= button_to '刪除', removeGroup_path(:id => @task.id), :confirm => 'Are you sure?' %>
+<% end %>
+

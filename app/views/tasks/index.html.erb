@@ -1,0 +1,17 @@
+<h2>檢視 <span>公告</span></h2>
+
+<ul class="categories">
+	<% @tasks.each do |task| %>
+		<li>
+		<span>
+			<%= link_to task.title, :controller => 'tasks', :action => 'show', :id => task.id %>&nbsp;&nbsp;
+			
+			<% if current_user.school_class_id <= -1 %>
+				<%= link_to '[Edit]', :controller => 'tasks', :action => 'edit', :id => task.id %>&nbsp;&nbsp;
+				<%= link_to '[匯入分組]', :controller => 'tasks', :action => 'import_group', :id => task.id %>&nbsp;&nbsp;
+				<%= link_to '[Delete]', {:controller => 'tasks', :action => 'destroy', :id => task.id}, {:confirm => '確定刪除?', :method => :delete} %>&nbsp;&nbsp;
+			<% end %>
+		</span>
+		</li>
+	<% end %>
+</ul>

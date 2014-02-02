@@ -13,7 +13,6 @@ Grouping::Application.routes.draw do
 	
 	match 'searchGroup', to: 'groups#search_group', as: 'searchGroup'
 	match 'viewClass', to: 'groups#view_class', as: 'viewClass'
-	match 'viewGroup', to: 'groups#view_group', as: 'viewGroup'
 	
 	#---users---
   resources :users
@@ -26,6 +25,8 @@ Grouping::Application.routes.draw do
 	get 'newPassword', to: 'sessions#new_password', as: 'newPassword'
 	post 'changePassword', to: 'sessions#change_password', as: 'changePassword'
 	
+	match 'viewScore', to: 'users#view_score', as: 'viewScore'
+	
 	#---school class & course---
 	resources :courses
 	resources :school_classes
@@ -35,6 +36,35 @@ Grouping::Application.routes.draw do
 	
 	match 'mastudent', to: 'groups#manual_add_student', as: 'mastudent'
 	match 'cstudent', to: 'groups#create_student', as: 'cstudent'
+	
+	match 'chooseCourse', to: 'groups#choose_course', as: 'chooseCourse'
+	match 'setCourse', to: 'groups#set_course', as: 'setCourse'
+	match 'setTutor', to: 'groups#set_tutor', as: 'setTutor'
+	match 'removeTutor', to: 'groups#remove_tutor', as: 'removeTutor'
+	match 'course/:c_id/chooseStudent', to: 'groups#choose_student', as: 'chooseStudent'
+	match 'addStuToCourse', to: 'groups#add_student_to_course', as: 'addStuToCourse'
+	
+	match 'viewCourse', to: 'groups#view_course', as: 'viewCourse'
+	
+	#---Task---
+	resources :tasks do
+		collection do 
+			post :group_excel
+			post :score_excel
+		end
+	end
+	match '/course/:c_id/new', to: 'tasks#new', as: 'new_task'
+	match '/tasks/create', to: 'tasks#create', as: 'create_task'
+	match '/course/:c_id/index', to: 'tasks#index', as: 'index_task'
+	match '/tasks/:id', to: 'tasks#update', as: 'update_task'
+	delete '/tasks/:id', to: 'tasks#destroy', as: 'delete_task'
+	match '/tasks/:id/importGroup', to: 'tasks#import_group', as: 'importGroup'
+	match '/tasks/:id/importScore', to: 'tasks#import_score', as: 'importScore'
+	match '/tasks/:id/viewGroup', to: 'tasks#view_group', as: 'viewGroup'
+	match 'removeGroup', to: 'tasks#remove_group', as: 'removeGroup'
+	match '/tasks/:id/uploadFile', to: 'tasks#upload_file', as: 'uploadFile'
+	match '/tasks/:id/editFile', to: 'tasks#edit_file', as: 'editFile'
+
 	
 	# get "welcome/say_hello" => "welcome#say"
 	# get "welcome" => "welcome#index"

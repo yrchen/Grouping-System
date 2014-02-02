@@ -1,0 +1,26 @@
+<h2>檔案 <span>編輯</span></h2>
+
+<p style="color:#0082c1">*若無上傳新檔案, 系統會自動保留舊檔案<p>
+<%= form_tag uploadFile_path, multipart: true do %>
+	<%= file_field_tag :file %>
+	
+	<% if @teams_rate = @task.rates.where(:from_id => current_user.id) %>
+		<br><%= hidden_field_tag 'has_group', 1 %><br>
+		<p class="inclass">
+			<% @teams_rate.each_with_index do |t, idx| %>
+				<%= User.find(t.to_id).name %>:&nbsp;&nbsp;
+				<%= select_tag('rate_'+idx.to_s, options_for_select([['0 顆星', 0], ['1 顆星', 1], ['2 顆星', 2], ['3 顆星', 3], ['4 顆星', 4], ['5 顆星', 5]], t.rate)) %>&nbsp;&nbsp;&nbsp;&nbsp;
+				<%= hidden_field_tag 'team_id_'+idx.to_s, t.to_id %>
+			<% end %>
+		</p>
+		
+	<% else %>
+			<%= hidden_field_tag 'has_group', 0 %>
+			
+	<% end %>
+	
+	<%= submit_tag "上傳", data: { confirm: "確定上傳?" } %>
+	
+	<%= hidden_field_tag 'u_id', @upload.user_id %>
+	<%= hidden_field_tag 't_id', @upload.task_id %>
+<% end %>

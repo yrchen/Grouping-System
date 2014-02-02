@@ -1,0 +1,15 @@
+<h2>匯入 <span>成績</span></h2>
+
+<%= form_tag score_excel_tasks_path, multipart: true do %>
+	<%= file_field_tag :file %>
+	<%= submit_tag "匯入" %>
+	
+	<%= hidden_field_tag 'id', params[:id]%>
+<% end %>
+
+<br><br>
+<div>* 請注意，檔案格式僅限 ".xls" 與 ".xlsx"</div><br>
+<div>* 只有繳交作業的同學成績會被記錄, 其他資料將自動忽略</div><br>
+<div>* 注意A、B班成績匯入是在不同網頁喔!</div><br>
+<br><br>
+

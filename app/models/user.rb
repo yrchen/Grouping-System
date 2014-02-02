@@ -1,11 +1,17 @@
 # encoding: utf-8
 class User < ActiveRecord::Base
 	has_secure_password
-  attr_accessible :account, :school_class_id, :password, :password_confirmation
+  attr_accessible :account, :school_class_id, :password, :password_confirmation, :name
 	validates_uniqueness_of :account
 	validates_presence_of :account, :school_class_id
 	
 	belongs_to :school_class
+	has_many :student_group_relationships
+	has_many :groups, :through => :student_group_relationships
+	has_many :scores, :through => :tasks
+	has_many :user_course_relationships
+	has_many :courses, :through => :user_course_relationships
+	has_many :uploads
 	
 	def self.import(file)
 		s = open_spreadsheet(file)
@@ -27,6 +33,7 @@ class User < ActiveRecord::Base
 				# create new student
 				stu = new
 				stu.account = row["學號"]
+				stu.name = row["姓名"]
 				stu.password = "1111"
 				stu.school_class_id = c_id
 				

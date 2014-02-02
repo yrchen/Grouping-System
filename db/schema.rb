@@ -11,20 +11,30 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131006033615) do
+ActiveRecord::Schema.define(:version => 20140201053756) do
 
   create_table "courses", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "user_id"
+    t.integer  "group_mode"
   end
 
   create_table "groups", :force => true do |t|
-    t.integer  "course_id"
-    t.integer  "school_class_id"
-    t.integer  "mode"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.integer  "task_id"
+    t.integer  "inclass_number"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "rates", :force => true do |t|
+    t.integer  "task_id"
+    t.integer  "from_id"
+    t.integer  "to_id"
+    t.integer  "rate"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "school_classes", :force => true do |t|
@@ -33,19 +43,45 @@ ActiveRecord::Schema.define(:version => 20131006033615) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "tutors", :force => true do |t|
-    t.string   "account"
-    t.string   "password_digest"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+  create_table "student_group_relationships", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "tasks", :force => true do |t|
+    t.string   "title"
+    t.integer  "category"
+    t.integer  "course_id"
+    t.datetime "deadline"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "uploads", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "task_id"
+    t.string   "file"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "score"
+  end
+
+  create_table "user_course_relationships", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "course_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "users", :force => true do |t|
     t.string   "account"
     t.string   "password_digest"
-    t.integer  "school_class_id", :limit => 255
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.integer  "school_class_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.string   "name"
   end
 
 end

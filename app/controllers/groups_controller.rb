@@ -25,12 +25,12 @@ class GroupsController < ApplicationController
 		check_is_tutor
 	end
 	
-	# to store excel
+	# to store school class excel
 	def import_excel
 		SchoolClass.import(params[:file])
 		Course.import(params[:file])
-		Group.import(params[:file])
 		User.import(params[:file])
+		UserCourseRelationship.import(params[:file])
 		redirect_to root_url, notice: "資料已儲存"
 	end
 	
@@ -82,6 +82,8 @@ class GroupsController < ApplicationController
 				end
 			elsif( @user.account == nil || @user.account == "" )
 				format.html { redirect_to mastudent_path, notice: '學號不能為空白' }
+			elsif( @user.name == nil || @user.name == "" )
+				format.html { redirect_to mastudent_path, notice: '姓名不能為空白' }
 			elsif has_user
 				format.html { redirect_to mastudent_path, notice: '該學生已存在' }
 			end
@@ -92,28 +94,29 @@ class GroupsController < ApplicationController
 	# seting school class group method
 	def set_group
 		check_is_tutor
-		@group = Group.new
+		@course = Course.new
 	end
 	
 	def create_group
-		@group = Group.new(params[:group])
+		@course = Course.new(params[:course])
 		# check whether already has this group
-		@has_group = Group.where( :course_id => @group.course_id, :school_class_id => @group.school_class_id).first
+		@has_course = Course.where(  :name => @course.name ).first
 		
 		respond_to do |format|
-			if !@has_group
-				if @group.save
-					format.html { redirect_to setGroup_path, notice: '分組設定完成' }
+			if @course.group_mode != nil
+				if @has_course
+					if @has_course.group_mode == nil
+						@has_course.group_mode = @course.group_mode
+						@has_course.save
+						format.html { redirect_to setGroup_path, notice: '分組設定完成' }
+					else
+						format.html { redirect_to setGroup_path, notice: '該班級的這堂課已設好分組模式' }
+					end
 				else
-					format.html { render action: "set_group" }
+					format.html { redirect_to setGroup_path, notice: '尚未選擇班級' }
 				end
-			elsif @has_group.mode != nil
-				format.html { redirect_to setGroup_path, notice: '該班級的這堂課已設好分組模式' }
-			# not yet to choose mode
 			else
-				@has_group.mode = @group.mode
-				@has_group.save
-				format.html { redirect_to setGroup_path, notice: '分組設定完成' }
+				format.html { redirect_to setGroup_path, notice: '尚未選擇模式' }
 			end
     end
 	end
@@ -121,31 +124,123 @@ class GroupsController < ApplicationController
 	
 	# find what courses this school_class have
 	def search_group
-		check_is_tutor
-		@group = Group.new
+		@course = Course.new
+		@course_list = []
+		@UC_ship = UserCourseRelationship.where(:user_id => current_user.id)
+		@UC_ship.each do |s|
+			@course_list << Course.find(s.course_id)
+		end
 	end
 	
 	def view_class
-		@g = Group.new(params[:group])
-		
-		# this is from student's page
-		if params[:sc_id]
-			@g.school_class_id = params[:sc_id]
-		end
+		@course = Course.new(params[:course])
+		@has_course = Course.find_by_name(@course.name)
+		@tasks = []
 		
 		respond_to do |format|
-			if @g.school_class_id != nil
-				@groups = Group.where(:school_class_id => @g.school_class_id)
-				# Rails.logger.debug("--------"+@groups.size.to_s+"--------")
+			if @has_course
+				@tasks = Task.where(:course_id => @has_course.id).order("created_at DESC")
 				format.html
 			else
 				format.html { redirect_to searchGroup_path, notice: '尚未選擇班級' }
 			end
 		end
 	end
+	# -------------------------------------------
 	
-	def view_group
-		@group = Group.find(params[:id])
+	# setting course
+	def	choose_course
+		@course = Course.new
+		
+		# for student: see courses which they join
+		@UCRs = UserCourseRelationship.where(:user_id => current_user.id)
+		@courses = []
+		@UCRs.each do |c|
+			@courses << Course.find(c.course_id)
+		end
+	end
+	
+	def set_course
+		check_is_tutor
+		@course = Course.new(params[:course])
+		@has_course = Course.where( :name => @course.name ).first
+		
+		if @has_course
+			@course = @has_course
+			@has_UC_ship = UserCourseRelationship.where( :course_id => @course.id, :user_id => current_user.id ).first
+		else
+			format.html { redirect_to chooseCourse_path, notice: '查無此課程' }
+		end
+	end
+	
+	def set_tutor
+		check_is_tutor
+		@UC_ship = UserCourseRelationship.new
+		@UC_ship.user_id = current_user.id
+		@UC_ship.course_id = params[:c_id]
+	
+		respond_to do |format|
+			if @UC_ship.save
+				format.html { redirect_to chooseCourse_path, notice: '指導員設定完成' }
+			else
+				format.html { redirect_to chooseCourse_path, notice: '指導員設定失敗' }
+			end
+		end
+	end
+	
+	def remove_tutor
+		check_is_tutor
+		@has_UC_ship = UserCourseRelationship.where(  :course_id => params[:c_id], :user_id => current_user.id ).first
+	
+		respond_to do |format|
+			if @has_UC_ship
+				@has_UC_ship.destroy
+				format.html { redirect_to chooseCourse_path, notice: '指導員退出完成' }
+			else
+				format.html { redirect_to chooseCourse_path, notice: '指導員退出失敗' }
+			end
+		end
+	end
+	
+	def choose_student
+		check_is_tutor
+	
+		@user = User.new
+		@course = Course.find( params[:c_id] )
+	end
+	
+	def add_student_to_course
+		check_is_tutor
+		@has_user = User.where( :account => params[:user_account] ).first
+
+		respond_to do |format|
+			if !@has_user
+				format.html { redirect_to chooseCourse_path, notice: '查無此學生' }
+			else
+				@has_UC_ship = UserCourseRelationship.where(  :course_id => params[:c_id], :user_id => @has_user.id ).first
+				if @has_UC_ship
+					format.html { redirect_to chooseCourse_path, notice: '學生已加過此課程' }
+				else
+					@UC_ship = UserCourseRelationship.new
+					@UC_ship.user_id = @has_user.id
+					@UC_ship.course_id = params[:c_id]
+					
+					if @UC_ship.save
+						format.html { redirect_to chooseCourse_path, notice: '學生加入成功' }
+					else 
+						format.html { redirect_to chooseCourse_path, notice: '學生加入失敗' }
+					end
+				end
+			end
+		end
+	end
+	# -------------------------------------------
+	
+	# student view course
+	def view_course
+		@course = Course.new(params[:course])
+		@has_course = Course.where( :name => @course.name ).first
+		@tasks = Task.where(:course_id => @has_course.id).order("created_at DESC")
 	end
 	# -------------------------------------------
 	

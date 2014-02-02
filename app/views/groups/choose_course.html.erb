@@ -1,0 +1,17 @@
+<% if current_user.school_class_id < 0 %>
+	<h2>課程 <span>設定</span></h2>
+
+	<%= form_for @course, :url => {:action => "set_course"} do |f| %>
+		<p class="inline">選擇課程: &emsp;<%= f.select :name, Course.all.map{ |c| [c.name] }, :prompt => "請選擇" %></p>
+		<div class="actions">&emsp;<%= f.submit '設定' %></div>
+	<% end %>
+	
+<% else %>
+	<h2>課程 <span>瀏覽</span></h2>
+
+	<%= form_for @course, :url => {:action => "view_course"} do |f| %>
+		<p class="inline">選擇課程: &emsp;<%= f.select :name, @courses.map{ |c| [c.name] }, :prompt => "請選擇" %></p>
+		<div class="actions">&emsp;<%= f.submit '瀏覽' %></div>
+	<% end %>
+	
+<% end %>

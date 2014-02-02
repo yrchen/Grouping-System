@@ -1,0 +1,68 @@
+<% if @upload.id == nil && Time.now < @task.deadline %>
+	<hr size=2 align=center width=100%>
+	<%= form_tag uploadFile_path, multipart: true do %>
+		<p>
+			<h2>繳交作業</h2>
+			<%= file_field_tag :file %>
+		</p>
+		
+		<!-- Teammates rate -->
+		<% if @groups.size > 0 %>
+			<%= hidden_field_tag 'has_group', 1 %>
+			<p>
+				<h2>隊友評價</h2>
+				<% @teammates_form.each_with_index do |t, idx| %>
+					<% if t['id'] != current_user.id %>
+						<p class="inline">
+							<%= t['name'] %>:&nbsp;&nbsp;
+							<%= select_tag('rate_'+idx.to_s, options_for_select([['0 顆星', 0], ['1 顆星', 1], ['2 顆星', 2], ['3 顆星', 3], ['4 顆星', 4], ['5 顆星', 5]]), :prompt => "請選擇") %>&nbsp;&nbsp;&nbsp;&nbsp;
+							<%= hidden_field_tag 'team_id_'+idx.to_s, t['id'] %>
+						</p>
+					<% else %>
+						<%= hidden_field_tag 'rate_'+idx.to_s, 0 %>
+						<%= hidden_field_tag 'team_id_'+idx.to_s, current_user.id %>
+					<% end %>
+				<% end %>
+			</p>
+		<% else %>
+			<%= hidden_field_tag 'has_group', 0 %>
+		<% end %>
+		
+		<p><%= submit_tag "上傳", data: { confirm: "確定上傳?" } %></p>
+		
+		<%= hidden_field_tag 'u_id', @upload.user_id %>
+		<%= hidden_field_tag 't_id', @upload.task_id %>
+	<% end %>
+	<hr size=2 align=center width=100%>
+
+<% elsif @upload.id == nil && Time.now > @task.deadline %>
+	<p>──&nbsp;作業未繳交&nbsp;──</p>
+	
+<% else %>
+	<hr size=2 align=center width=100%>
+	<p>
+		檔案:&nbsp;&nbsp;<%= File.basename(@upload.file.path) %>&nbsp;&nbsp;&nbsp;&nbsp;
+		(<%= File.basename(@upload.file.size.to_s) %>&nbsp; bytes)
+	</p>
+	
+	<% if @groups.size > 0 %>
+		<br>
+		<p>
+			給隊友的評價:
+			<% @teammates_form.each_with_index do |t, idx| %>
+				<% if t['id'] != current_user.id %>
+					<p>
+						<%= t['name'] %>:&nbsp;&nbsp;
+						<%= @task.rates.where(:from_id => current_user.id, :to_id => t['id']).first.rate %>&nbsp;顆星
+					</p>
+				<% end %>
+			<% end %>
+		</p>
+	<% end %>
+	
+	<% if Time.now < @task.deadline %>
+	<div><%= link_to '編輯', :controller => 'tasks', :action => 'edit_file', :id => @upload.task_id %></div>
+	<% end %>
+	<hr size=2 align=center width=100%>
+	
+<% end %>

@@ -1,0 +1,9 @@
+<h2>編輯 <span>公告</span></h2>
+
+<%= form_for @task, :url => update_task_path(@task) do |f| %>
+	<p><%= f.label "標題:" %>&nbsp;&nbsp;<%= f.text_field :title %></p>
+	<p><%= f.label "文章類型:" %>&nbsp;&nbsp;<%= f.select :category, options_for_select([["Assignment", 0], ["Exercise", 1], ["Test", 2]], :selected => f.object.category) %><br></p>
+	<p><%= f.label "作業上傳期限:" %>&nbsp;&nbsp;<%= f.datetime_select :deadline %><br></p>
+	
+	<div class="actions"><%= submit_tag "修改", data: { confirm: "確定修改?" } %></div>
+<% end %>

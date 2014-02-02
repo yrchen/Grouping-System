@@ -2,7 +2,7 @@
 
 <div>
 	<p class="inline">已匯入之班級: <%= select_tag '班級', options_from_collection_for_select( SchoolClass.order(:name), 'id', 'name' ) %></p>
-	<p>&emsp; 已新增之課名: <%= select_tag '課名', options_from_collection_for_select( Course.order(:name), 'id', 'name' ) %></p>
+	<p>&emsp; 已新增之課程代號: <%= select_tag '課程代號', options_from_collection_for_select( Course.order(:name), 'id', 'name' ) %></p>
 </div>
 
 <%= form_tag import_excel_groups_path, multipart: true do %>
@@ -15,4 +15,4 @@
 <div>* 學生預設密碼皆為 "1111"</div>
 <br><br>
 
-<div><%= link_to "手動新增學生帳號", mastudent_path, class: "inline" %>&emsp;&emsp;<%= link_to "手動新增課堂名稱", macourse_path %><div>
+<div><%= link_to "手動新增學生帳號", mastudent_path, class: "inline" %>&emsp;&emsp;<%= link_to "手動新增課程代號", macourse_path %><div>
