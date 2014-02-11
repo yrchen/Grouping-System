@@ -14,12 +14,12 @@ class TasksController < ApplicationController
 		# note that 'deadline' store into database will turn into america timezone
 		respond_to do |format|
 			if(@task.title == "" || @task.category == nil)
-				format.html { redirect_to chooseCourse_path, notice: '各個欄位皆不能留白' }
+				format.html { redirect_to chooseCourse_path, :flash => { :error => '各個欄位皆不能留白' } }
 			else
 				if @task.save
-					format.html { redirect_to chooseCourse_path, notice: '文章發表成功' }
+					format.html { redirect_to chooseCourse_path, :flash => { :success => '文章發表成功' } }
 				else
-					format.html { redirect_to chooseCourse_path, notice: '文章發表失敗' }
+					format.html { redirect_to chooseCourse_path, :flash => { :error => '文章發表失敗' } }
 				end
 			end
 		end
@@ -94,12 +94,12 @@ class TasksController < ApplicationController
 		# note that 'deadline' store into database will turn into america timezone
 		respond_to do |format|
 			if(@tmp.title == "" || @tmp.category == nil)
-				format.html { redirect_to chooseCourse_path, notice: '各個欄位皆不能留白' }
+				format.html { redirect_to chooseCourse_path, :flash => { :error => '各個欄位皆不能留白' } }
 			else
 				if @task.update_attributes(params[:task])
-					format.html { redirect_to chooseCourse_path, notice: '文章編輯成功' }
+					format.html { redirect_to chooseCourse_path, :flash => { :success => '文章編輯成功' } }
 				else
-					format.html { redirect_to chooseCourse_path, notice: '文章編輯失敗' }
+					format.html { redirect_to chooseCourse_path, :flash => { :error => '文章編輯失敗' } }
 				end
 			end
 		end
@@ -111,9 +111,9 @@ class TasksController < ApplicationController
 		
 		respond_to do |format|
 			if @task.destroy
-				format.html { redirect_to chooseCourse_path, notice: '公告成功刪除' }
+				format.html { redirect_to chooseCourse_path, :flash => { :success => '公告成功刪除' } }
 			else
-				format.html { redirect_to chooseCourse_path, notice: '公告刪除失敗' }
+				format.html { redirect_to chooseCourse_path, :flash => { :error => '公告刪除失敗' } }
 			end
 		end
 	end
@@ -130,7 +130,7 @@ class TasksController < ApplicationController
 		Group.import(params[:id], params[:file])
 		StudentGroupRelationship.import(params[:id], params[:file])
 		
-		redirect_to root_url, notice: "資料已儲存"
+		redirect_to root_url, :flash => { :success => "資料已儲存" }
 	end
 	# -------------------------------------------
 	
@@ -144,7 +144,7 @@ class TasksController < ApplicationController
 		check_is_tutor
 		Upload.import(params[:id], params[:file])
 		
-		redirect_to root_url, notice: "資料已儲存"
+		redirect_to root_url, :flash => { :success => "資料已儲存" }
 	end
 	# -------------------------------------------
 	
@@ -153,7 +153,7 @@ class TasksController < ApplicationController
 		@groups = @task.groups.order("inclass_number ASC")
 		
 		if @groups.size == 0
-			redirect_to searchGroup_path, notice: "此公告並無分組"
+			redirect_to searchGroup_path, :flash => { :info => "此公告並無分組" }
 		end
 	end
 	
@@ -170,9 +170,9 @@ class TasksController < ApplicationController
 		
 		respond_to do |format|
 			if @groups.delete_all
-				format.html { redirect_to importGroup_path(:id => t_id), notice: '分組成功刪除' }
+				format.html { redirect_to importGroup_path(:id => t_id), :flash => { :success => '分組成功刪除' } }
 			else
-				format.html { redirect_to importGroup_path(:id => t_id), notice: '分組刪除失敗' }
+				format.html { redirect_to importGroup_path(:id => t_id), :flash => { :error => '分組刪除失敗' } }
 			end
 		end
 	end
@@ -188,7 +188,7 @@ class TasksController < ApplicationController
 		respond_to do |format|
 			if( @upload.id == nil && (params[:file] == nil || params[:file] == "") )
 				format.html { 
-					flash[:notice] = '檔案不能為空'
+					flash[:error] = '檔案不能為空'
 					redirect_to :action => 'show', :id => @upload.task_id
 				}
 			else
@@ -201,12 +201,12 @@ class TasksController < ApplicationController
 				
 				if Time.now < Task.find(params[:t_id]).deadline && @upload.save
 					format.html { 
-						flash[:notice] = str
+						flash[:success] = str
 						redirect_to :action => 'show', :id => @upload.task_id
 					}
 				else
 					format.html { 
-						flash[:notice] = '作業上傳失敗'
+						flash[:error] = '作業上傳失敗'
 						redirect_to :action => 'show', :id => @upload.task_id
 					}
 				end
@@ -223,7 +223,7 @@ class TasksController < ApplicationController
 		respond_to do |format|
 			if Time.now > @task.deadline
 				format.html { 
-						flash[:notice] = '已超過繳交期限'
+						flash[:warning] = '已超過繳交期限'
 						redirect_to :action => 'show', :id => @upload.task_id
 					}
 			else

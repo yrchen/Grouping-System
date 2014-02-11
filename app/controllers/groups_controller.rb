@@ -31,7 +31,7 @@ class GroupsController < ApplicationController
 		Course.import(params[:file])
 		User.import(params[:file])
 		UserCourseRelationship.import(params[:file])
-		redirect_to root_url, notice: "資料已儲存"
+		redirect_to root_url, :flash => { :success => "資料已儲存" }
 	end
 	
 	# for tutor use only
@@ -48,14 +48,14 @@ class GroupsController < ApplicationController
     respond_to do |format|
 			if( @course.name != nil && @course.name != "" && !has_course )
 				if @course.save
-					format.html { redirect_to root_url, notice: '課程新增成功' }
+					format.html { redirect_to root_url, :flash => { :success => '課程新增成功' } }
 				else
 					format.html { render action: "manual_add_course" }
 				end
 			elsif( @course.name == nil || @course.name == "" )
-				format.html { redirect_to macourse_path, notice: '課程名稱不能為空白' }
+				format.html { redirect_to macourse_path, :flash => { :error => '課程名稱不能為空白' } }
 			elsif has_course
-				format.html { redirect_to macourse_path, notice: '此課程已存在' }
+				format.html { redirect_to macourse_path, :flash => { :info => '此課程已存在' } }
 			end
     end
 	end
@@ -76,16 +76,16 @@ class GroupsController < ApplicationController
 			if( @user.account != nil && @user.account != "" && !has_user )
 				@user.password = "1111"
 				if @user.save
-					format.html { redirect_to root_url, notice: '學生新增成功' }
+					format.html { redirect_to root_url, :flash => { :success => '學生新增成功' } }
 				else
 					format.html { render action: "manual_add_student" }
 				end
 			elsif( @user.account == nil || @user.account == "" )
-				format.html { redirect_to mastudent_path, notice: '學號不能為空白' }
+				format.html { redirect_to mastudent_path, :flash => { :error => '學號不能為空白' } }
 			elsif( @user.name == nil || @user.name == "" )
-				format.html { redirect_to mastudent_path, notice: '姓名不能為空白' }
+				format.html { redirect_to mastudent_path, :flash => { :error => '姓名不能為空白' } }
 			elsif has_user
-				format.html { redirect_to mastudent_path, notice: '該學生已存在' }
+				format.html { redirect_to mastudent_path, :flash => { :info => '該學生已存在' } }
 			end
     end
 	end
@@ -108,15 +108,15 @@ class GroupsController < ApplicationController
 					if @has_course.group_mode == nil
 						@has_course.group_mode = @course.group_mode
 						@has_course.save
-						format.html { redirect_to setGroup_path, notice: '分組設定完成' }
+						format.html { redirect_to setGroup_path, :flash => { :success => '分組設定完成' } }
 					else
-						format.html { redirect_to setGroup_path, notice: '該班級的這堂課已設好分組模式' }
+						format.html { redirect_to setGroup_path, :flash => { :warning => '該班級的這堂課已設好分組模式' } }
 					end
 				else
-					format.html { redirect_to setGroup_path, notice: '尚未選擇班級' }
+					format.html { redirect_to setGroup_path, :flash => { :warning => '尚未選擇班級' } }
 				end
 			else
-				format.html { redirect_to setGroup_path, notice: '尚未選擇模式' }
+				format.html { redirect_to setGroup_path, :flash => { :warning => '尚未選擇模式' } }
 			end
     end
 	end
@@ -142,7 +142,7 @@ class GroupsController < ApplicationController
 				@tasks = Task.where(:course_id => @has_course.id).order("created_at DESC")
 				format.html
 			else
-				format.html { redirect_to searchGroup_path, notice: '尚未選擇班級' }
+				format.html { redirect_to searchGroup_path, :flash => { :warning => '尚未選擇班級' } }
 			end
 		end
 	end
@@ -169,7 +169,7 @@ class GroupsController < ApplicationController
 			@course = @has_course
 			@has_UC_ship = UserCourseRelationship.where( :course_id => @course.id, :user_id => current_user.id ).first
 		else
-			format.html { redirect_to chooseCourse_path, notice: '查無此課程' }
+			format.html { redirect_to chooseCourse_path, :flash => { :warning => '查無此課程' } }
 		end
 	end
 	
@@ -181,9 +181,9 @@ class GroupsController < ApplicationController
 	
 		respond_to do |format|
 			if @UC_ship.save
-				format.html { redirect_to chooseCourse_path, notice: '指導員設定完成' }
+				format.html { redirect_to chooseCourse_path, :flash => { :success => '指導員設定完成' } }
 			else
-				format.html { redirect_to chooseCourse_path, notice: '指導員設定失敗' }
+				format.html { redirect_to chooseCourse_path, :flash => { :error => '指導員設定失敗' } }
 			end
 		end
 	end
@@ -195,9 +195,9 @@ class GroupsController < ApplicationController
 		respond_to do |format|
 			if @has_UC_ship
 				@has_UC_ship.destroy
-				format.html { redirect_to chooseCourse_path, notice: '指導員退出完成' }
+				format.html { redirect_to chooseCourse_path, :flash => { :success => '指導員退出完成' } }
 			else
-				format.html { redirect_to chooseCourse_path, notice: '指導員退出失敗' }
+				format.html { redirect_to chooseCourse_path, :flash => { :error => '指導員退出失敗' } }
 			end
 		end
 	end
@@ -215,20 +215,20 @@ class GroupsController < ApplicationController
 
 		respond_to do |format|
 			if !@has_user
-				format.html { redirect_to chooseCourse_path, notice: '查無此學生' }
+				format.html { redirect_to chooseCourse_path, :flash => { :warning => '查無此學生' } }
 			else
 				@has_UC_ship = UserCourseRelationship.where(  :course_id => params[:c_id], :user_id => @has_user.id ).first
 				if @has_UC_ship
-					format.html { redirect_to chooseCourse_path, notice: '學生已加過此課程' }
+					format.html { redirect_to chooseCourse_path, :flash => { :warning => '學生已加過此課程' } }
 				else
 					@UC_ship = UserCourseRelationship.new
 					@UC_ship.user_id = @has_user.id
 					@UC_ship.course_id = params[:c_id]
 					
 					if @UC_ship.save
-						format.html { redirect_to chooseCourse_path, notice: '學生加入成功' }
+						format.html { redirect_to chooseCourse_path, :flash => { :success => '學生加入成功' } }
 					else 
-						format.html { redirect_to chooseCourse_path, notice: '學生加入失敗' }
+						format.html { redirect_to chooseCourse_path, :flash => { :error => '學生加入失敗' } }
 					end
 				end
 			end

@@ -35,17 +35,17 @@ class SessionsController < ApplicationController
 		# Rails.logger.debug("--------" + pwd.blank? + "--------")
 		
 		if !@user.authenticate(old_pwd)
-			redirect_to newPassword_path, notice: "密碼輸入錯誤"
+			redirect_to newPassword_path, :flash => { :error => "密碼輸入錯誤" }
 		else
 			if old_pwd == pwd
-				redirect_to newPassword_path, notice: "新舊密碼相同"
+				redirect_to newPassword_path, :flash => { :warning => "新舊密碼相同" }
 			elsif pwd.blank? || pwd_confirm.blank? || pwd != pwd_confirm
-				redirect_to newPassword_path, notice: "新密碼驗證有誤"
+				redirect_to newPassword_path, :flash => { :error => "新密碼驗證有誤" }
 			else
 				@user.password = pwd
 				@user.password_confirmation = pwd_confirm
 				@user.save
-				redirect_to root_url, notice: "密碼已變更"
+				redirect_to root_url, :flash => { :success => "密碼已變更" }
 			end
 		end
 	end
