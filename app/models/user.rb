@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
 	has_many :courses, :through => :user_course_relationships
 	has_many :uploads
 	
+	ajaxful_rater
+	
 	def self.import(file)
 		s = open_spreadsheet(file)
 		

@@ -1,0 +1,18 @@
+//找process ID
+ps -ef | grep script/rails
+
+//停止rails server
+kill -9 <Process ID>
+
+
+ruby 匯出 csv文件 中文亂碼問題的解決方法
+亂碼的解決辦法是：給csv文件頭寫入utf-8 -- BOM (Byte Order Mark)
+# make excel using utf8 to open csv file
+head = 'EF BB BF'.split(' ').map{|a|a.hex.chr}.join()
+就是加句：
+file.write 'EF BB BF'.split(' ').map{|a|a.hex.chr}.join()
+
+# console 輸出更好
+rails c
+require 'hirb'
+Hirb.enable

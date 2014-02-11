@@ -3,9 +3,10 @@
 <%= form_for @task, :url => create_task_path(@task) do |f| %>
 	<p><%= f.label "標題:" %>&nbsp;&nbsp;<%= f.text_field :title %></p>
 	<p><%= f.label "文章類型:" %>&nbsp;&nbsp;<%= f.select :category, options_for_select([["Assignment", 0], ["Exercise", 1], ["Test", 2]]), :prompt => "選擇類型" %><br></p>
+	<p><%= f.label "公告發布時間:" %>&nbsp;&nbsp;<%= f.datetime_select :publish %><br></p>
 	<p><%= f.label "作業上傳期限:" %>&nbsp;&nbsp;<%= f.datetime_select :deadline %><br></p>
 	
-	<div class="actions"><%= submit_tag "新增", data: { confirm: "確定新增?" } %></div>
+	<div class="actions"><%= submit_tag "新增", data: { confirm: "確定新增?" }, :class => 'tsc_c3b_small tsc_button tsc_c3b_blue tsc_c3b_input' %></div>
 	
 	<%= f.text_field :course_id, :value => params[:c_id], :type => 'hidden' %>
 <% end %>

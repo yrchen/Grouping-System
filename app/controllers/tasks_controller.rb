@@ -31,7 +31,7 @@ class TasksController < ApplicationController
 	
 	def show
 		@task = Task.find(params[:id])
-		@groups = @task.groups
+		@groups = @task.groups.order("inclass_number ASC")
 		# @groups = Group.where(:task_id => @task.id)
 		
 		@upload = Upload.where(:task_id => @task.id, :user_id => current_user.id).first || Upload.new
@@ -56,19 +56,27 @@ class TasksController < ApplicationController
 			# To find teammates, save in '@teammates'
 			@team = []
 			@teammates = []
+			@rate_list = []
 			if @current_group != nil
 				@team = StudentGroupRelationship.where(:group_id => @current_group.id)
 				@team.each do |t|
-					@teammates << t.user
+					if t.user.id != current_user.id
+						@teammates << t.user
+						
+						# rating teammates
+						@member_rate = MemberRate.where(:task_id => @task.id, :from_id => current_user.id, :to_id => t.user.id).first || MemberRate.new(:task_id => @task.id, :from_id => current_user.id, :to_id => t.user.id)
+						@member_rate.save
+						@rate_list << @member_rate
+						@mate = Rate.where(:rater_id => current_user.id, :rateable_id => @member_rate.id, :rateable_type => 'MemberRate').first || Rate.new(:rater_id => current_user.id, :rateable_id => @member_rate.id, :rateable_type => 'MemberRate', :stars => 0)
+						@mate.save
+						@member_rate.rate_id = @mate.id
+						@member_rate.save
+					end
 				end
-			end
-			
-			# excluse this current user
-			@teammates_form = Array.new(@teammates.size){Hash.new}
-			@teammates.each_with_index do |t, idx|
-				@teammates_form[idx]['id'] = t.id
-				@teammates_form[idx]['name'] = t.name
-				@teammates_form[idx]['t_id'] = @task.id
+				
+				# rating grouping result
+				@grouping_rate = Rate.where(:rater_id => current_user.id, :rateable_id => @current_group.id, :rateable_type => 'Group').first || Rate.new(:rater_id => current_user.id, :rateable_id => @current_group.id, :rateable_type => 'Group', :stars => 3)
+				@grouping_rate.save
 			end
 		end
 	end
@@ -142,7 +150,7 @@ class TasksController < ApplicationController
 	
 	def view_group
 		@task = Task.find(params[:id])
-		@groups = @task.groups
+		@groups = @task.groups.order("inclass_number ASC")
 		
 		if @groups.size == 0
 			redirect_to searchGroup_path, notice: "此公告並無分組"
@@ -175,29 +183,10 @@ class TasksController < ApplicationController
 		@upload.user_id = params[:u_id]
 		@upload.file = params[:file]
 		
-		if params[:has_group].to_i != 0
-			# very bad code...but I have no time
-			@teams = Array.new(4){Hash.new}
-			@teams[0]['rate'] = params[:rate_0]
-			@teams[1]['rate'] = params[:rate_1]
-			@teams[2]['rate'] = params[:rate_2]
-			@teams[3]['rate'] = params[:rate_3]
-			
-			@teams[0]['id'] = params[:team_id_0]
-			@teams[1]['id'] = params[:team_id_1]
-			@teams[2]['id'] = params[:team_id_2]
-			@teams[3]['id'] = params[:team_id_3]
-		end
-		
 		# Rails.logger.debug("--------"+@teams_rate[0]+"--------")
 		
 		respond_to do |format|
-			if( params[:has_group].to_i != 0 && (params[:rate_0] == "" || params[:rate_1] == "" || params[:rate_2] == "" || params[:rate_3] == "") )
-				format.html { 
-					flash[:notice] = '作業繳交失敗...沒給隊友評價喔!'
-					redirect_to :action => 'show', :id => @upload.task_id
-				}
-			elsif( @upload.id == nil && (params[:file] == nil || params[:file] == "") )
+			if( @upload.id == nil && (params[:file] == nil || params[:file] == "") )
 				format.html { 
 					flash[:notice] = '檔案不能為空'
 					redirect_to :action => 'show', :id => @upload.task_id
@@ -211,20 +200,6 @@ class TasksController < ApplicationController
 				end
 				
 				if Time.now < Task.find(params[:t_id]).deadline && @upload.save
-					# save for teammates rate
-					if params[:has_group].to_i != 0
-						@teams.each_with_index do |t, idx|
-							if current_user.id != t['id'].to_i
-								@rate = Rate.where(:task_id => params[:t_id], :from_id => current_user.id, :to_id => t['id'].to_i).first || Rate.new(:task_id => params[:t_id], :from_id => current_user.id, :to_id => t['id'].to_i, :rate => t['rate'].to_i)
-								@rate.rate = t['rate'].to_i
-								
-								if @rate.to_id != 0
-									@rate.save
-								end
-							end
-						end
-					end
-					
 					format.html { 
 						flash[:notice] = str
 						redirect_to :action => 'show', :id => @upload.task_id
@@ -241,8 +216,9 @@ class TasksController < ApplicationController
 	
 	def	edit_file
 		@task = Task.find(params[:id])
-		@groups = @task.groups
+		@groups = @task.groups.order("inclass_number ASC")
 		@upload = Upload.where(:task_id => @task.id, :user_id => current_user.id).first || Upload.new
+		@current_group = current_user.groups.where(:task_id => @task.id).first
 		
 		respond_to do |format|
 			if Time.now > @task.deadline

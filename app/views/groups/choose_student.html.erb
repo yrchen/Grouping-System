@@ -2,7 +2,7 @@
 
 <%= form_tag "/addStuToCourse" do %>
     請輸入學號:&emsp;<%= text_field_tag :user_account %>
-    <%= submit_tag "新增", :confirm => 'Are you sure?'%>
+    <%= submit_tag "新增", :confirm => 'Are you sure?', :class => 'tsc_c3b_small tsc_button tsc_c3b_blue tsc_c3b_input'%>
 		
 		<%= text_field_tag :c_id, @course.id, :type => 'hidden' %>
 <% end %>

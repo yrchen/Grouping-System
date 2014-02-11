@@ -1,10 +1,10 @@
 <h2><%= @course.name %></h2>
 <% if !@has_UC_ship %>
-	<div><%= button_to "成為指導員", setTutor_path(:c_id => @course.id), :confirm => 'Are you sure?' %></div>
+	<div><%= button_to "成為指導員", setTutor_path(:c_id => @course.id), :confirm => 'Are you sure?', :class => 'tsc_c3b_small tsc_button tsc_c3b_blue tsc_c3b_input' %></div>
 <% else %>	
-	<div><%= button_to "退出指導員", removeTutor_path(:c_id => @course.id), :confirm => 'Are you sure?' %></div>
+	<div><%= button_to "退出指導員", removeTutor_path(:c_id => @course.id), :confirm => 'Are you sure?', :class => 'tsc_c3b_small tsc_button tsc_c3b_blue tsc_c3b_input' %></div>
 <% end %>
 <br>
-<div><%= button_to "手動加入學生", chooseStudent_path(:c_id => @course.id) %></div><br>
-<div><%= button_to "發布公告", new_task_path(:c_id => @course.id) %></div><br>
-<div><%= button_to "檢視公告", index_task_path(:c_id => @course.id) %></div><br>
+<div><%= button_to "手動加入學生", chooseStudent_path(:c_id => @course.id), :class => 'tsc_c3b_small tsc_button tsc_c3b_blue tsc_c3b_input' %></div><br>
+<div><%= button_to "發布公告", new_task_path(:c_id => @course.id), :class => 'tsc_c3b_small tsc_button tsc_c3b_blue tsc_c3b_input' %></div><br>
+<div><%= button_to "檢視公告", index_task_path(:c_id => @course.id), :class => 'tsc_c3b_small tsc_button tsc_c3b_blue tsc_c3b_input' %></div><br>

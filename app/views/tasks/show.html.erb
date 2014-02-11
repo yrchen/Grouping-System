@@ -1,26 +1,30 @@
-<h2><%= @task.title %></h2>
+<% if current_user.school_class_id <= -1 || @task.publish == nil || @task.publish < Time.now %>
+	<h2><%= @task.title %></h2>
 
-<p>
-	類型:&nbsp;&nbsp;
-	<% if @task.category == 0 %>
-		Assignment
-	<% elsif @task.category == 1 %>
-		Exercise
-	<% elsif @task.category == 2 %>
-		Test
+	<p>
+		類型:&nbsp;&nbsp;
+		<% if @task.category == 0 %>
+			Assignment
+		<% elsif @task.category == 1 %>
+			Exercise
+		<% elsif @task.category == 2 %>
+			Test
+		<% end %>
+		<br>
+	</p>
+	<p>公告發布時間:&nbsp;&nbsp;<%= @task.publish %></p>
+	<p>作業繳交期限:&nbsp;&nbsp;<%= @task.deadline %></p><br>
+
+	<% if current_user.school_class_id <= -1 %>
+		<%= link_to '編輯', :controller => 'tasks', :action => 'edit', :id => @task.id %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<%= link_to '匯入成績', :controller => 'tasks', :action => 'import_score', :id => @task.id %>
+	<% else %>	
+		<%= render :partial => "upload_form" %>
 	<% end %>
-	<br>
-</p>
 
-<p>作業繳交期限:&nbsp;&nbsp;<%= @task.deadline %></p><br>
-
-<% if current_user.school_class_id <= -1 %>
-	<%= link_to '編輯', :controller => 'tasks', :action => 'edit', :id => @task.id %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<%= link_to '匯入成績', :controller => 'tasks', :action => 'import_score', :id => @task.id %>
-<% else %>	
-	<%= render :partial => "upload_form" %>
-<% end %>
-
-<% if @groups.size > 0 %>
-	<%= render :partial => "view_group" %>
+	<% if @groups.size > 0 %>
+		<%= render :partial => "view_group" %>
+	<% end %>
+<% else %>
+	<h2>尚未公告</h2>
 <% end %>

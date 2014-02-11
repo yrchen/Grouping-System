@@ -7,7 +7,7 @@
 <%= form_for @course, :url => ccourse_path(@course) do |f| %>
 	<%= render "course_fields", :f => f %>
 	
-	<div class="actions">&emsp;&emsp;<%= submit_tag "新增", data: { confirm: "課程新增後無法手動刪除，確定新增?" } %></div>
+	<div class="actions">&emsp;&emsp;<%= submit_tag "新增", data: { confirm: "課程新增後無法手動刪除，確定新增?" }, :class => 'tsc_c3b_small tsc_button tsc_c3b_blue tsc_c3b_input' %></div>
 <% end %>
 
 <br><br>

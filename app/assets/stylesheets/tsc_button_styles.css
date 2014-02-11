@@ -1,0 +1,94 @@
+/* Start Button Styles --------------------------------------------- */
+input[type="button"],
+button { border:0 none; font:inherit; }
+*:focus { outline:0 none; }
+input[type="submit"] { border:1px solid rgba(0, 0, 0, 0.25); }
+input[type="button"],
+button { -moz-box-sizing: content-box; }/*fixes mozilla padding - mozilla only, doesn't need webkit or other values */
+input[type="button"]::-moz-focus-inner, button::-moz-focus-inner { padding:0; border:0 none;}/*fixes mozilla button padding - mozilla only, doesn't need webkit or other values */
+/* General Button Styles, Cascades Down To Every Button ------------- */
+.tsc_button { -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; -moz-box-shadow:0 1px 3px rgba(0, 0, 0, 0.50); -webkit-box-shadow:0 1px 3px rgba(0, 0, 0, 0.50); box-shadow:0 1px 3px rgba(0, 0, 0, 0.50); background:#222222 url(../images/button-overlay.png) repeat-x; border:1px solid rgba(0, 0, 0, 0.25); color:#FFFFFF !important; cursor:pointer; display:inline-block; font-size:13px; font-weight:bold; line-height:1; overflow:visible; padding:5px 15px 6px; position:relative; text-decoration:none; text-shadow:0 -1px 1px rgba(0, 0, 0, 0.25); width:auto; text-align:center; }
+.tsc_button:hover { background:#111111; color:#FFFFFF; }
+.tsc_button:active { background:#242424; }
+.tsc_c3b_green.tsc_button { background-color:#91BD09; }
+.tsc_c3b_green.tsc_button:hover { background-color:#749A02; }
+.tsc_c3b_green.tsc_button:active { background-color:#a4d50b; }
+.tsc_c3b_blue.tsc_button { background-color:#0193c0; }
+.tsc_c3b_blue.tsc_button:hover { background-color:#006fae; }
+.tsc_c3b_blue.tsc_button:active { background-color:#00cafd; }
+.tsc_c3b_purple.tsc_button { background-color:#660099; }
+.tsc_c3b_purple.tsc_button:hover { background-color:#330066; }
+.tsc_c3b_purple.tsc_button:active { background-color:#7f02bd; }
+.tsc_c3b_teal.tsc_button { background-color:#2DAEBF; }
+.tsc_c3b_teal.tsc_button:hover { background-color:#007D9A; }
+.tsc_c3b_teal.tsc_button:active { background-color:#36cbdf; }
+.tsc_c3b_red.tsc_button { background-color:#CC0000; }
+.tsc_c3b_red.tsc_button:hover { background-color:#990000; }
+.tsc_c3b_red.tsc_button:active { background-color:#ea0202; }
+.tsc_c3b_magenta.tsc_button { background-color:#A9014B; }
+.tsc_c3b_magenta.tsc_button:hover { background-color:#630030; }
+.tsc_c3b_magenta.tsc_button:active { background-color:#ce025c; }
+.tsc_c3b_orange.tsc_button { background-color:#FF5C00; }
+.tsc_c3b_orange.tsc_button:hover { background-color:#D45500; }
+.tsc_c3b_orange.tsc_button:active { background-color:#fd762a; }
+.tsc_c3b_yellow.tsc_button { background-color:#FFE115; }
+.tsc_c3b_yellow.tsc_button:hover { background-color:#E4C913; }
+.tsc_c3b_yellow.tsc_button:active { background-color:#fee539; }
+.tsc_c3b_white.tsc_button { background-color:#FFFFFF; border:1px solid #CCCCCC; color:#666666 !important; font-weight:normal; text-shadow:0 1px 1px #FFFFFF; }
+.tsc_c3b_white.tsc_button:hover { background-color:#EEEEEE; }
+.tsc_c3b_white.tsc_button:active { background-color:#ffffff; }
+.tsc_c3b_gray.tsc_button { -moz-box-shadow:0 1px 3px rgba(0, 0, 0, 0.50); background:#EEEEEE url(../images/button-overlay-black.png) repeat-x; border:1px solid #BBBBBB; color:#555555 !important; text-shadow:0 1px 1px rgba(255, 255, 255, 0.5); }
+.tsc_c3b_gray.tsc_button:hover { background-color:#DDDDDD; border-color:#999999; color:#444444 !important; }
+.tsc_c3b_gray.tsc_button:active { background-color:#ffffff; }
+/* Small Buttons -------------------------------------------------- */
+.tsc_c3b_small.tsc_button { font-size:12px; padding:5px 15px 6px; background-image:url(../images/small-button-overlay.png); }
+input[type="submit"].tsc_c3b_small.tsc_button,
+.tsc_c3b_small.tsc_button.tsc_c3b_input { padding:3px 15px 2px; }
+input[type="button"].tsc_c3b_small.tsc_button,
+button.tsc_c3b_small.tsc_button { padding:4px 15px; }
+/* Large Buttons ------------------------------------------------- */
+.tsc_c3b_large.tsc_button { font-size:14px; padding:8px 19px 9px; background-image:url(../images/large-button-overlay.png); }
+input[type="submit"].tsc_c3b_large.tsc_button,
+.tsc_c3b_large.tsc_button.tsc_c3b_input { padding:6px 16px 6px; }
+input[type="button"].tsc_c3b_large.tsc_button,
+button.tsc_c3b_large.tsc_button { padding:7px 16px; }
+/* Tall Buttons ------------------------------------------------- */
+.tsc_c3b_tall.tsc_button { font-size:14px; padding:8px 19px 9px; background-image:url(../images/tall-button-overlay.png); }
+.tsc_c3b_tall.tsc_c3b_gray.tsc_button { background-color:#FFFFFF; background-image: url(../images/tall-black.png); background-repeat:repeat-x; }
+.tsc_c3b_tall.tsc_c3b_gray.tsc_button:hover { background-color:#EEEEEE!important; border-color:#999999; color:#444444 !important; }
+.tsc_c3b_tall.tsc_c3b_gray.tsc_button:active { background-color:#FFFFFF!important; }
+
+
+/* Round Buttons ------------------------------------------------ */
+.tsc_c3b_round.tsc_button { -moz-border-radius:15px; -webkit-border-radius:15px; border-radius:15px; background-image:url(../images/round-button-overlay.png); border:1px solid rgba(0, 0, 0, 0.25); font-size:13px; padding:0; }
+.tsc_c3b_round.tsc_button span { -moz-border-radius:14px; -webkit-border-radius:14px; border-radius:14px; display:block; line-height:1; padding:4px 15px 6px; }
+.tsc_c3b_round.tsc_button.tsc_c3b_input { padding:3px 13px 4px; }
+.tsc_c3b_small.tsc_c3b_round.tsc_button { -moz-border-radius:12px; -webkit-border-radius:12px; border-radius:12px; font-size:11px; }
+input[type="button"].tsc_c3b_round.tsc_c3b_small.tsc_button,
+button.tsc_c3b_round.tsc_c3b_small.tsc_button { padding:0; }
+.tsc_c3b_small.tsc_c3b_round.tsc_button span { -moz-border-radius:11px; -webkit-border-radius:11px; border-radius:11px; padding:6px 15px 6px; }
+.tsc_c3b_large.tsc_c3b_round.tsc_button { -moz-border-radius:18px; -webkit-border-radius:18px; border-radius:18px; background-position:left bottom; }
+.tsc_c3b_large.tsc_c3b_round.tsc_button span { -moz-border-radius:17px; -webkit-border-radius:17px; border-radius:17px; font-size:14px; padding:7px 20px 9px; }
+.tsc_c3b_large.tsc_c3b_tall.tsc_c3b_round.tsc_button small { display:block; margin-top:5px; }
+/* Arrows and Icons Classes --------------------------------------- */
+.tsc_c3b_download.tsc_c3b_large.tsc_c3b_round span { background:url(../images/arrow-down.png) no-repeat right center; padding-right:30px; margin-right:15px; }
+.tsc_c3b_download.tsc_c3b_large span { background:url(../images/arrow-down.png) no-repeat right center; padding-right:30px; margin-right:0px; }
+.tsc_c3b_download.tsc_c3b_tall span { float:right; padding-right:40px; margin:0 -5px -1px 0; height:32px; }
+.tsc_c3b_download.tsc_c3b_light.tsc_c3b_tall span { float:right; padding-right:40px; margin:0 -5px -1px 0; height:32px; }
+.tsc_c3b_download.tsc_c3b_dark.tsc_c3b_tall span { float:right; padding-right:40px; margin:0 -5px -1px 0; height:32px; }
+.tsc_c3b_dlDark.tsc_c3b_large.tsc_c3b_round span { background:url(../images/arrow-down-dark.png) no-repeat right center; padding-right:30px; margin-right:15px; }
+.tsc_c3b_dlDark.tsc_c3b_large span { background:url(../images/arrow-down-dark.png) no-repeat right center; padding-right:30px; margin-right:0px; }
+.tsc_c3b_dlLight.tsc_c3b_large.tsc_c3b_round span { background:url(../images/arrow-down-light.png) no-repeat right center; padding-right:30px; margin-right:15px; }
+.tsc_c3b_dlLight.tsc_c3b_large span { background:url(../images/arrow-down-light.png) no-repeat right center; padding-right:30px; margin-right:0px; }
+
+.tsc_button.tall span { 
+    font-size: 16px; 
+    text-align: center; 
+} 
+.tsc_button.tall span em { 
+    display: block; 
+    font-size: 11px; 
+} 
+.tsc_button.tall {
+    background-image: url("../images/tall-tsc-button-overlay.png");
+}

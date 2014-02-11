@@ -5,30 +5,32 @@
 			<h2>繳交作業</h2>
 			<%= file_field_tag :file %>
 		</p>
+		<br>
 		
 		<!-- Teammates rate -->
 		<% if @groups.size > 0 %>
 			<%= hidden_field_tag 'has_group', 1 %>
 			<p>
 				<h2>隊友評價</h2>
-				<% @teammates_form.each_with_index do |t, idx| %>
-					<% if t['id'] != current_user.id %>
-						<p class="inline">
-							<%= t['name'] %>:&nbsp;&nbsp;
-							<%= select_tag('rate_'+idx.to_s, options_for_select([['0 顆星', 0], ['1 顆星', 1], ['2 顆星', 2], ['3 顆星', 3], ['4 顆星', 4], ['5 顆星', 5]]), :prompt => "請選擇") %>&nbsp;&nbsp;&nbsp;&nbsp;
-							<%= hidden_field_tag 'team_id_'+idx.to_s, t['id'] %>
-						</p>
-					<% else %>
-						<%= hidden_field_tag 'rate_'+idx.to_s, 0 %>
-						<%= hidden_field_tag 'team_id_'+idx.to_s, current_user.id %>
-					<% end %>
+				<a style="color:#0082c1">*為您辛苦的隊友評個分數!</a><br><br>
+				<% @teammates.each_with_index do |t, idx| %>
+					<p class="inline">
+						<%= t.name %>:&nbsp;&nbsp;
+						<%= ratings_for @rate_list[idx], :show_user_rating => true %>
+					</p>
 				<% end %>
+			</p>
+			<br>
+			<p>
+				<h2>分組評價</h2>
+				<a style="color:#0082c1">*對於您這次的分組給個評價吧!</a><br><br>
+				<%= ratings_for @current_group, :show_user_rating => true %>
 			</p>
 		<% else %>
 			<%= hidden_field_tag 'has_group', 0 %>
 		<% end %>
 		
-		<p><%= submit_tag "上傳", data: { confirm: "確定上傳?" } %></p>
+		<p><%= submit_tag "上傳", data: { confirm: "確定上傳?" }, :class => 'tsc_c3b_small tsc_button tsc_c3b_blue tsc_c3b_input' %></p>
 		
 		<%= hidden_field_tag 'u_id', @upload.user_id %>
 		<%= hidden_field_tag 't_id', @upload.task_id %>
@@ -49,14 +51,18 @@
 		<br>
 		<p>
 			給隊友的評價:
-			<% @teammates_form.each_with_index do |t, idx| %>
-				<% if t['id'] != current_user.id %>
-					<p>
-						<%= t['name'] %>:&nbsp;&nbsp;
-						<%= @task.rates.where(:from_id => current_user.id, :to_id => t['id']).first.rate %>&nbsp;顆星
-					</p>
-				<% end %>
+			<% @teammates.each_with_index do |t, idx| %>
+				<p class="inline">
+					<%= t.name %>:&nbsp;&nbsp;
+					<%= ratings_for @rate_list[idx], :show_user_rating => true %>
+				</p>
 			<% end %>
+		</p>
+		<br>
+		<p>
+			給這次分組的評價:
+			<%= ratings_for @current_group, :show_user_rating => true %><br>
+			<a style="color:#0082c1">*評價可以直接在這更改呦!</a>
 		</p>
 	<% end %>
 	

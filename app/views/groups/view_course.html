@@ -2,10 +2,12 @@
 
 <ul class="categories">
 	<% @tasks.each do |task| %>
-		<li>
-		<span>
-			<%= link_to task.title, :controller => 'tasks', :action => 'show', :id => task.id %>&nbsp;&nbsp;
-		</span>
-		</li>
+		<% if task.publish == nil || task.publish < Time.now %>
+			<li>
+			<span>
+				<%= link_to task.title, :controller => 'tasks', :action => 'show', :id => task.id %>&nbsp;&nbsp;
+			</span>
+			</li>
+		<% end %>
 	<% end %>
 </ul>

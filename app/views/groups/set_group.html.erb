@@ -14,7 +14,7 @@
 	
 	<p class="inline">選擇課程: &emsp;<%= f.select :name, Course.all.map{ |c| [c.name] }, :prompt => "請選擇" %></p>
 	<p class="inline">&emsp;<%= f.select :group_mode, options_for_select([["S型分組", 0], ["隨機分組", 1], ["研究分組", 2]]), :prompt => "請選擇" %><br></p>
-	<div class="actions">&emsp;<%= f.submit '確認' %></div>
+	<div class="actions">&emsp;<%= f.submit '確認', :class => 'tsc_c3b_small tsc_button tsc_c3b_blue tsc_c3b_input' %></div>
 <% end %>
 
 <br><br>

@@ -42,3 +42,7 @@ gem 'roo'
 gem 'mysql2'
 
 gem "carrierwave"
+
+gem "hirb"
+
+gem 'ajaxful_rating', :git => 'git://github.com/edgarjs/ajaxful-rating.git', :branch => "rails3"

@@ -3,6 +3,9 @@ Grouping::Application.routes.draw do
 	#---groups---
 	resources :groups do
 		collection { post :import_excel }
+		member do
+			post :rate
+		end
 	end
 	
 	root :to => "groups#index"
@@ -65,6 +68,12 @@ Grouping::Application.routes.draw do
 	match '/tasks/:id/uploadFile', to: 'tasks#upload_file', as: 'uploadFile'
 	match '/tasks/:id/editFile', to: 'tasks#edit_file', as: 'editFile'
 
+	#--Member_Rate--
+	resources :member_rates do
+		member do
+			post :rate
+		end
+	end
 	
 	# get "welcome/say_hello" => "welcome#say"
 	# get "welcome" => "welcome#index"

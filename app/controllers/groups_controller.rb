@@ -244,6 +244,14 @@ class GroupsController < ApplicationController
 	end
 	# -------------------------------------------
 	
+	def rate
+    @group = Group.find(params[:id])
+    @group.rate(params[:stars], current_user)
+    respond_to do |format|
+        format.js   {}
+    end
+  end
+	
 	# avoid student key this path to view this page
 	def check_is_tutor
 		redirect_to groups_path, alert: "很抱歉，您沒有權限閱覽該頁面" if current_user.school_class_id > -1

@@ -3,7 +3,7 @@
 <%= form_for @user, :url => cstudent_path(@user) do |f| %>
 	<%= render "student_fields", :f => f %>
 	
-	<div class="actions">&emsp;&emsp;<%= submit_tag "新增", data: { confirm: "學生新增後無法手動刪除、修改，確定新增?" } %></div>
+	<div class="actions">&emsp;&emsp;<%= submit_tag "新增", data: { confirm: "學生新增後無法手動刪除、修改，確定新增?" }, :class => 'tsc_c3b_small tsc_button tsc_c3b_blue tsc_c3b_input' %></div>
 <% end %>
 
 <br>

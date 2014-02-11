@@ -6,6 +6,8 @@ class Group < ActiveRecord::Base
 	has_many :student_group_relationships
 	has_many :users, :through => :student_group_relationships
 	
+	ajaxful_rateable :stars => 5
+	
 	def self.import(t_id, file)
 		s = open_spreadsheet(file)
 		header = s.row(1)

@@ -3,7 +3,7 @@
 <% if @groups.size == 0 %>
 	<%= form_tag group_excel_tasks_path, multipart: true do %>
 		<%= file_field_tag :file %>
-		<%= submit_tag "匯入" %>
+		<%= submit_tag "匯入", :class => 'tsc_c3b_small tsc_button tsc_c3b_blue tsc_c3b_input' %>
 		
 		<%= hidden_field_tag 'id', params[:id]%>
 	<% end %>
@@ -15,6 +15,6 @@
 	
 <% else %>
 	<p>已經有分組, 是否要先刪除再匯入?</p>
-	<%= button_to '刪除', removeGroup_path(:id => @task.id), :confirm => 'Are you sure?' %>
+	<%= button_to '刪除', removeGroup_path(:id => @task.id), :confirm => 'Are you sure?', :class => 'tsc_c3b_small tsc_button tsc_c3b_blue tsc_c3b_input' %>
 <% end %>
 
