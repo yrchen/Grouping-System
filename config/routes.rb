@@ -67,6 +67,8 @@ Grouping::Application.routes.draw do
 	match 'removeGroup', to: 'tasks#remove_group', as: 'removeGroup'
 	match '/tasks/:id/uploadFile', to: 'tasks#upload_file', as: 'uploadFile'
 	match '/tasks/:id/editFile', to: 'tasks#edit_file', as: 'editFile'
+	match '/tasks/:id/viewMemberRate', to: 'tasks#view_member_rate', as: 'viewMemberRate'
+	match '/tasks/:id/viewRate', to: 'tasks#view_rate', as: 'viewRate'
 
 	#--Member_Rate--
 	resources :member_rates do

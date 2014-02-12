@@ -232,6 +232,40 @@ class TasksController < ApplicationController
 		end
 	end
 	
+	# download member_rating excel
+	def view_member_rate
+		check_is_tutor
+		@task = Task.find(params[:id])
+		@member_rates = @task.member_rates.order("from_id ASC, to_id ASC")
+		
+		headers["Content-Disposition"] = "attachment; filename=\"#{@task.title}_teammate_rate.xls\""
+		respond_to do |format|
+			format.html
+			format.xls # { send_data @products.to_csv(col_sep: "\t") }
+		end
+	end
+	
+	# download grouping_rating excel
+	def view_rate
+		check_is_tutor
+		@task = Task.find(params[:id])
+		@groups = @task.groups.order("inclass_number ASC")
+		
+		@rates = []
+		@groups.each do |g|
+			@sub_rates = Rate.where(:rateable_id => g.id).order("rater_id ASC")
+			@sub_rates.each do |s|
+				@rates << s
+			end
+		end
+		
+		headers["Content-Disposition"] = "attachment; filename=\"#{@task.title}_grouping_rate.xls\""
+		respond_to do |format|
+			format.html
+			format.xls # { send_data @products.to_csv(col_sep: "\t") }
+		end
+	end
+	
 	# avoid student key this path to view this page
 	def check_is_tutor
 		redirect_to groups_path, alert: "很抱歉，您沒有權限閱覽該頁面" if current_user.school_class_id > -1

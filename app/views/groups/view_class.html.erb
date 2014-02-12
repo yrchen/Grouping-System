@@ -5,7 +5,9 @@
 		<% if Group.find_by_task_id(task.id) %>
 			<li>
 			<span>
-				<%= link_to task.title, :controller => 'tasks', :action => 'view_group', :id => task.id %>&nbsp;&nbsp;
+				<%= link_to task.title, :controller => 'tasks', :action => 'view_group', :id => task.id %>&nbsp;&nbsp;&nbsp;
+				<%= link_to '下載隊友評價', :controller => 'tasks', :action => 'view_member_rate', :format => :xls, :id => task.id %>&nbsp;&nbsp;&nbsp;
+				<%= link_to '下載分組評價', :controller => 'tasks', :action => 'view_rate', :format => :xls, :id => task.id %>&nbsp;&nbsp;&nbsp;
 			</span>
 			</li>
 		<% end %>
