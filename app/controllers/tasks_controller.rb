@@ -253,7 +253,7 @@ class TasksController < ApplicationController
 		
 		@rates = []
 		@groups.each do |g|
-			@sub_rates = Rate.where(:rateable_id => g.id).order("rater_id ASC")
+			@sub_rates = Rate.where(:rateable_id => g.id, :rateable_type => 'Group').order("rater_id ASC")
 			@sub_rates.each do |s|
 				@rates << s
 			end

@@ -1,11 +1,12 @@
 <h2>成績 <span>查詢</span></h2>
 
 <% @courses.each do |course| %>
-	<% assignments = course.tasks.where(:category => 0).order("created_at DESC") %>
-	<% exercises = course.tasks.where(:category => 1).order("created_at DESC") %>
-	<% tests = course.tasks.where(:category => 2).order("created_at DESC") %>
+	<% assignments = course.tasks.where(:category => 0).where("publish < ?", Time.now).order("created_at DESC") %>
+	<% exercises = course.tasks.where(:category => 1).where("publish < ?", Time.now).order("created_at DESC") %>
+	<% tests = course.tasks.where(:category => 2).where("publish < ?", Time.now).order("created_at DESC") %>
 	
-	<br><hr size=2 align=center width=100%>
+	<h3><%= course.name %></h3>
+	<hr size=2 align=center width=100%>
 	<h3> Assignment </h3>
 	<% assignments.each do |a| %>
 		<p>
