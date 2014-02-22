@@ -3,14 +3,14 @@
 
 	<p style="color:#0082c1">*若無上傳新檔案, 系統會自動保留舊檔案<p>
 	<%= form_tag uploadFile_path, multipart: true do %>
-		<%= file_field_tag :file %>
-		
 		<% if @teams_rate = @task.member_rates.where(:from_id => current_user.id) %>
-			<br><%= hidden_field_tag 'has_group', 1 %><br><br>
+			<%= hidden_field_tag 'has_group', 1 %>
 			<p class="inclass">
 				<% @teams_rate.each_with_index do |t, idx| %>
-					<%= User.find(t.to_id).name %>:&nbsp;&nbsp;
-					<%= ratings_for t, :show_user_rating => true %>
+					<p class="inline">
+						<%= User.find(t.to_id).name %>:&nbsp;&nbsp;
+						<%= ratings_for t, :show_user_rating => true %>
+					</p>
 				<% end %>
 			</p>
 			<br>
@@ -26,7 +26,11 @@
 				
 		<% end %>
 		
-		<%= submit_tag "上傳", data: { confirm: "確定上傳?" }, :class => 'tsc_c3b_small tsc_button tsc_c3b_blue tsc_c3b_input' %>
+		<br>
+		<p>
+			<%= file_field_tag :file %>
+			<%= submit_tag "上傳", data: { confirm: "確定上傳?" }, :class => 'tsc_c3b_small tsc_button tsc_c3b_blue tsc_c3b_input' %>
+		</p>
 		
 		<%= hidden_field_tag 'u_id', @upload.user_id %>
 		<%= hidden_field_tag 't_id', @upload.task_id %>

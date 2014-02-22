@@ -1,12 +1,6 @@
 <% if @upload.id == nil && Time.now < @task.deadline %>
 	<hr size=2 align=center width=100%>
 	<%= form_tag uploadFile_path, multipart: true do %>
-		<p>
-			<h2>繳交作業</h2>
-			<%= file_field_tag :file %>
-		</p>
-		<br>
-		
 		<!-- Teammates rate -->
 		<% if @groups.size > 0 %>
 			<%= hidden_field_tag 'has_group', 1 %>
@@ -29,8 +23,12 @@
 		<% else %>
 			<%= hidden_field_tag 'has_group', 0 %>
 		<% end %>
-		
-		<p><%= submit_tag "上傳", data: { confirm: "確定上傳?" }, :class => 'tsc_c3b_small tsc_button tsc_c3b_blue tsc_c3b_input' %></p>
+		<br>
+		<p>
+			<h2>繳交作業</h2>
+			<%= file_field_tag :file %>
+			<%= submit_tag "上傳", data: { confirm: "確定上傳?" }, :class => 'tsc_c3b_small tsc_button tsc_c3b_blue tsc_c3b_input' %>
+		</p>
 		
 		<%= hidden_field_tag 'u_id', @upload.user_id %>
 		<%= hidden_field_tag 't_id', @upload.task_id %>
