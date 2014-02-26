@@ -2,7 +2,7 @@
 	<hr size=2 align=center width=100%>
 	<%= form_tag uploadFile_path, multipart: true do %>
 		<!-- Teammates rate -->
-		<% if @groups.size > 0 %>
+		<% if @groups.size > 0 && @current_group != [] %>
 			<%= hidden_field_tag 'has_group', 1 %>
 			<p>
 				<h2>隊友評價</h2>
@@ -45,7 +45,7 @@
 		(<%= File.basename(@upload.file.size.to_s) %>&nbsp; bytes)
 	</p>
 	
-	<% if @groups.size > 0 %>
+	<% if @groups.size > 0 && @current_group != [] %>
 		<br>
 		<p>
 			給隊友的評價:
