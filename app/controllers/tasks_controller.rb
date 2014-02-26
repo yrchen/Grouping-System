@@ -57,7 +57,8 @@ class TasksController < ApplicationController
 			@team = []
 			@teammates = []
 			@rate_list = []
-			if @current_group != nil
+			if @current_group != nil && @current_group != []
+				print '---------------'+@current_group
 				@team = StudentGroupRelationship.where(:group_id => @current_group.id)
 				@team.each do |t|
 					if t.user.id != current_user.id

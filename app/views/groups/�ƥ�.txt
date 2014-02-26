@@ -1,0 +1,4 @@
+﻿"index.html.erb"
+	<p>教師身分可使用邀請碼<%= link_to "註冊新帳號", signup_path %></p>
+"set_group.html.erb"
+15行	<p class="inline">選擇班級與課程: &emsp;<%= f.select :school_class_id, SchoolClass.all.map{ |c| [c.name, c.id] }, :prompt => "請選擇" %></p>

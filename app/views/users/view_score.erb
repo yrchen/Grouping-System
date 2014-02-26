@@ -13,11 +13,11 @@
 			<%= a.title %>:&nbsp;&nbsp;
 			
 			<% upload = a.uploads.find_by_user_id(current_user.id) %>
-			<% if upload == nil %>
-				<hl style="color:#c10000">作業未繳交</hl>
-				
-			<% elsif upload.score != nil %>
+			<% if upload != nil && upload.score != nil %>
 				<%= upload.score %>
+				
+			<% elsif upload == nil %>
+				<hl style="color:#c10000">作業未繳交</hl>
 				
 			<% elsif upload.score == nil %>	
 				尚未公告成績
@@ -32,11 +32,11 @@
 			<%= a.title %>:&nbsp;&nbsp;
 			
 			<% upload = a.uploads.find_by_user_id(current_user.id) %>
-			<% if upload == nil %>
-				<hl style="color:#c10000">作業未繳交</hl>
-				
-			<% elsif upload.score != nil %>
+			<% if upload != nil && upload.score != nil %>
 				<%= upload.score %>
+				
+			<% elsif upload == nil %>
+				<hl style="color:#c10000">作業未繳交</hl>
 				
 			<% elsif upload.score == nil %>	
 				尚未公告成績
@@ -51,11 +51,11 @@
 			<%= a.title %>:&nbsp;&nbsp;
 			
 			<% upload = a.uploads.find_by_user_id(current_user.id) %>
-			<% if upload == nil %>
-				<hl style="color:#c10000">作業未繳交</hl>
-				
-			<% elsif upload.score != nil %>
+			<% if upload != nil && upload.score != nil %>
 				<%= upload.score %>
+				
+			<% elsif upload == nil %>
+				<hl style="color:#c10000">作業未繳交</hl>
 				
 			<% elsif upload.score == nil %>	
 				尚未公告成績
