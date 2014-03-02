@@ -19,6 +19,8 @@ Grouping::Application.configure do
 
   # Generate digests for assets URLs
   config.assets.digest = true
+	
+	config.logger = Logger.new(config.paths["log"].first, 'weekly')
 
   # Defaults to nil and saved in location specified by config.assets.prefix
   # config.assets.manifest = YOUR_PATH
